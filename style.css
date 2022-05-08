@@ -2,7 +2,8 @@
     font-family: "Archivo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
 }
@@ -31,7 +32,9 @@ header {
     letter-spacing: 0.5px;
 }
 
-#start, #reset, #finish, #early {
+#start,
+#reset,
+#finish {
     position: relative;
     top: 120px;
     line-height: 70px;
@@ -48,7 +51,9 @@ header {
     transition: 0.3s;
 }
 
-#start:hover, #reset:hover, #finish:hover, #early:hover {
+#start:hover,
+#reset:hover,
+#finish:hover {
     background-color: white;
     color: rgb(94, 171, 162);
 
@@ -61,13 +66,6 @@ header {
 
 #finish {
     display: none;
-}
-
-#early {
-    display: none;
-    width: 300px;
-    font-size: 2rem;
-    line-height: 50px;
 }
 
 .information {
@@ -151,7 +149,7 @@ header {
     padding: 0 15px;
 }
 
-.lists ul:last-child li{
+.lists ul:last-child li {
     text-align: center;
 }
 
@@ -168,7 +166,7 @@ header {
     border-bottom: 2px solid rgba(255, 255, 255, 0.5);
 }
 
-#msg p{
+#msg p {
     margin: 0;
     font-size: 3rem;
     line-height: 70px;

@@ -1,64 +1,79 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Round Timer</title>
-        <link rel="stylesheet" type="text/css" href="style.css">
-    </head>
 
-    <body>
-        <div id="page">
-            <header><p>Round Timer</p></header>
-            <div id="start">START</div>
-            <div id="reset">RESET</div>
-            <div id="finish">FINISH</div>
+<head>
+    <meta charset="UTF-8">
+    <title>Round Timer</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
 
-            <form class="information form">
-                Active time: <input type="number" min="0" name="work-length" placeholder="Seconds">
-                Break time: <input type="number" min="0" name="break-length" placeholder="Seconds">
-                Rounds: <input type="number" min="0" name="sets-length" placeholder="Count">
-            </form>
+<body>
+    <div id="page">
+        <header>
+            <p>Round Timer</p>
+        </header>
+        <div id="start">START</div>
+        <div id="reset">RESET</div>
+        <div id="finish">FINISH</div>
 
-            <div class="information congratulations">
-                <div id="msg"><p>Congratulations!</p></div>
+        <form class="information form">
+            Active time: <input type="number" min="0" name="work-length" placeholder="Seconds">
+            Break time: <input type="number" min="0" name="break-length" placeholder="Seconds">
+            Rounds: <input type="number" min="0" name="sets-length" placeholder="Count">
+        </form>
+
+        <div class="information congratulations">
+            <div id="msg">
+                <p>Congratulations!</p>
             </div>
-
-            <div class="information stats">
-                <p>Statistics</p>
-
-                <div class="lists">
-                    <ul>
-                        <li>Time spent training</li>
-                        <li>Time spent on breaks</li>
-                        <li>Time spent paused</li>
-                        <li>Total time spent</li>
-                        <li>Sets completed</li>
-                        <li>Exercises per set</li>
-                        <li>Total exercises completed</li>
-                    </ul>
-
-                    <ul>
-                        <li>Seconds</li>
-                        <hr>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div id="required"><p>Please fill in all required information.</p></div>
-            <div id="action"><p></p></div>
-            <div id="sets"><p></p></div>
-            <div id="timer"><p></p></div>
-            <div id="exercise"><p></p></div>
-            <div id="early">FINISH EARLY</div>
         </div>
 
-        <script type="text/javascript" src="script.js"></script>
-    </body>
+        <div class="information stats">
+            <p>Statistics</p>
+
+            <div class="lists">
+                <ul>
+                    <li>Time spent training</li>
+                    <li>Time spent on breaks</li>
+                    <li>Time spent paused</li>
+                    <li>Total time spent</li>
+                    <li>Sets completed</li>
+                    <li>Exercises per set</li>
+                    <li>Total exercises completed</li>
+                </ul>
+
+                <ul>
+                    <li>Seconds</li>
+                    <hr>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="required">
+            <p>Please fill in all required information.</p>
+        </div>
+        <div id="action">
+            <p></p>
+        </div>
+        <div id="sets">
+            <p></p>
+        </div>
+        <div id="timer">
+            <p></p>
+        </div>
+        <div id="exercise">
+            <p></p>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="script.js"></script>
+</body>
+
 </html>
