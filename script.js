@@ -1,19 +1,5 @@
 const exercises = [
-    "Round 1",
-    "Round 2",
-    "Round 3",
-    "Round 4",
-    "Round 5",
-    "Round 6",
-    "Round 7",
-    "Round 8",
-    "Round 9",
-    "Round 10",
-    "Round 11",
-    "Round 12",
-    "Round 13",
-    "Round 14",
-    "Round 15"
+    "1. Let's go!",
 ];
 
 let $ = function (selector, parent) {
@@ -35,7 +21,7 @@ let getByClass = function (selector) {
 const start = getById("start");
 const reset = getById("reset");
 const finish = getById("finish");
-const early = getById("early");
+
 const inputs = getByTag("input");
 let statistics = document.querySelectorAll("ul:last-child li");
 
@@ -57,7 +43,7 @@ start.addEventListener("click", () => {
 reset.addEventListener("click", resetEverything);
 reset.addEventListener("click", resetStats);
 finish.addEventListener("click", displayStats);
-early.addEventListener("click", finishEarly);
+
 
 // Changes and displays active time and sets once started, when written(changed) in input
 inputs[0].addEventListener("change", () => {
@@ -167,16 +153,16 @@ function displayStats() {
 
     // Total time
     statistics[4].innerText = (+statistics[1].innerText) +
-                              (+statistics[2].innerText) +
-                              (+statistics[3].innerText);
+        (+statistics[2].innerText) +
+        (+statistics[3].innerText);
 }
 
 // Checks if either of the inputs are empty
 function checkEmptyInputs() {
     return inputs[0].value == "" ||
-           inputs[1].value == "" ||
-           inputs[2].value == "" ?
-           true : false;
+    inputs[1].value == "" ||
+    inputs[2].value == "" ?
+        true : false;
 }
 
 // Changes color and button text when either of the buttons are pressed
@@ -186,7 +172,7 @@ function colorChange() {
 
     if(actionText === "Get Ready!" && start.innerText === "PAUSE") {
         start.innerText = "CONTINUE";
-        color.style.backgroundColor = "#6e4804";
+        color.style.backgroundColor = "#535354";
     }
     else if(actionText === "Get Ready!" && start.innerText === "CONTINUE") {
         start.innerText = "PAUSE";
@@ -195,24 +181,24 @@ function colorChange() {
     else if(actionText === "Get Ready!") {
         start.innerText = "PAUSE";
     }
-    else if(actionText === "Work" && start.innerText === "CONTINUE") {
+    else if(actionText === "WORK" && start.innerText === "CONTINUE") {
         start.innerText = "PAUSE";
         color.style.backgroundColor = "#118007";
     }
-    else if(actionText === "Break" && start.innerText === "CONTINUE") {
+    else if(actionText === "BREAK" && start.innerText === "CONTINUE") {
         start.innerText = "PAUSE";
         color.style.backgroundColor = "#535354";
     }
     else {
         start.innerText = "CONTINUE";
-        color.style.backgroundColor = "#6e4804";
+        color.style.backgroundColor = "#535354";
     }
 }
 
 // Counts down time and changes things related to time
 function countdown() {
     countTime();
-    // Executes if timer is not paused 
+    // Executes if timer is not paused
     if(start.innerText === "PAUSE" || start.innertext === "BREAK") {
         let time = $("#timer p").innerText,
             action = $("#action p").innerText,
@@ -220,43 +206,34 @@ function countdown() {
             active = inputs[0].value,
             pause = inputs[1].value,
             sets = $("#sets p").innerText;
-        
+
         // Subtracts 1 second from running time
         $("#timer p").innerText--;
 
         // After a repetition is finished: changes screen color, exercise text, action text
         // After a set is finished: lowers sets number by 1
         // After all sets are finished: executes "stopTimer"
-        if(time <= 1 && action === "Work") {
+        if(time <= 1 && action === "WORK") {
             countExercises();
             // Changes from work to break
             $("#timer p").innerText = pause;
-            $("#action p").innerText = "Break";
-            color.style.backgroundColor = "#ff6819";
-            
-            // Changes exercise text after one is finished and lowers sets number if all exercises are finished
-            let whichExercise = $("#exercise p").innerText.match(/\d+/g).map(Number)[0];
-            if(whichExercise === exercises.length) {
-                countSets();
-                whichExercise = 0;
-                $("#sets p").innerText = --sets;
+            $("#action p").innerText = "BREAK";
+            color.style.backgroundColor = "#6e4804";
 
-                // Stops the timer after all sets are finished
-                if(sets == 0) {stopTimer();}
-            }
-            // Changes exercise text after every repetition
-            $("#exercise p").innerText = exercises[whichExercise];
+            // Changes exercise text after one is finished and lowers sets number if all exercises are finishedcountSets($("#sets p").innerText = --sets// Stops the timer after all sets are finishif(sets == 0) {stopTimer();}
+
+            // Changes exercise text after every repetitio//$("#exercise p").innerText = exercises[whic
         }
-        else if (time <= 1 && action === "Break") {
+        else if (time <= 1 && action === "BREAK") {
             // Changes from break to work
             $("#timer p").innerText = active;
-            $("#action p").innerText = "Work";
+            $("#action p").innerText = "WORK";
             color.style.backgroundColor = "#118007";
         }
         else if(time <= 1 && action === "Get Ready!"){
             // Used only for first start. Changes from get ready to work
             $("#timer p").innerText = active;
-            $("#action p").innerText = "Work";
+            $("#action p").innerText = "WORK";
             color.style.backgroundColor = "#118007";
         }
     }
@@ -266,8 +243,8 @@ function countTime() {
     if($(".information.stats").style.dataCount === "true") {
         let action = $("#action p").innerText;
         if(start.innerText === "CONTINUE") {statistics[3].innerText++;}
-        else if(action === "Work") {statistics[1].innerText++;}
-        else if(action === "Break") {statistics[2].innerText++;}
+        else if(action === "WORK") {statistics[1].innerText++;}
+        else if(action === "BREAK") {statistics[2].innerText++;}
     }
 }
 
@@ -293,5 +270,5 @@ function resetStats() {
 
 function finishEarly() {
     stopTimer();
-    displayStats();
+        yStats();
 }

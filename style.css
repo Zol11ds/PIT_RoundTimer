@@ -45,6 +45,13 @@ header {
     border: 1px solid rgba(255, 255, 255, 0.5);
     color: white;
     letter-spacing: 0.5px;
+    transition: 0.3s;
+}
+
+#start:hover, #reset:hover, #finish:hover, #early:hover {
+    background-color: white;
+    color: rgb(94, 171, 162);
+
 }
 
 #reset {
@@ -250,9 +257,7 @@ input:focus {
     top: 70px;
     width: 400px;
     height: 150px;
-    background-color: rgb(94, 171, 162);
     border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
     transition: all 0.15s;
     display: none;
 }
@@ -266,23 +271,8 @@ input:focus {
     color: white;
 }
 
-#exercise {
-    position: relative;
-    top: 90px;
-    background-color: rgb(94, 171, 162);
-    border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    width: 400px;
-    height: 50px;
-    transition: all 0.15s;
-    display: none;
-}
+
 
 #exercise p {
-    margin: 0;
-    line-height: 50px;
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: white;
+    display: none;
 }
