@@ -12,7 +12,7 @@ WAMP | XAMPP etc.
 - Setup your local server.
 
 ## Authors
-Miks Āre
-Jānis Līdums
-Niks Priževoits
-Aleks Grišins
+- Miks Āre
+- Jānis Līdums
+- Niks Priževoits
+- Aleks Grišins
