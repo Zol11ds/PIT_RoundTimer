@@ -1,3 +1,4 @@
+var globalTime = 5;
 
 let $ = function ( selector, parent ) {
     return ( parent ? parent : document ).querySelector( selector );
@@ -92,6 +93,7 @@ function stopTimer () {
 
 // Executes when "RESET" button is pressed
 function resetEverything () {
+    globalTime = 5;
     if ( start.style.display = "none" ) { start.style.display = "initial"; }
     getByClass( "stats" )[ 0 ].style.display = "none"; // Hides statistics
 
@@ -186,7 +188,8 @@ function countdown () {
     countTime();
     // Executes if timer is not paused
     if ( start.innerText === "PAUSE" || start.innertext === "BREAK" ) {
-        let time = $( "#timer p" ).innerText,
+        //time = $( "#timer p" ).innerText,
+        let time = globalTime,
             action = $( "#action p" ).innerText,
             color = getById( "page" ),
             active = inputs[ 0 ].value,
@@ -194,14 +197,18 @@ function countdown () {
             sets = $( "#sets p" ).innerText;
 
         // Subtracts 1 second from running time
-        $( "#timer p" ).innerText--;
+        globalTime--;
+        if (action === "Get Ready!" ) $( "#timer p" ).innerText = globalTime;
+        else $( "#timer p" ).innerText = String(~~(globalTime/60) + ':' + String(globalTime%60).padStart(2, '0'));
+        //$( "#timer p" ).innerText--;
 
         // After a repetition is finished: changes screen color, exercise text, action text
         // After a set is finished: lowers sets number by 1
         // After all sets are finished: executes "stopTimer"
         if ( time <= 1 && action === "Work" ) {
             // Changes from work to break
-            $( "#timer p" ).innerText = pause;
+            globalTime = pause;
+            $( "#timer p" ).innerText = String(~~(globalTime/60) + ':' + String(globalTime%60).padStart(2, '0'));
             $( "#action p" ).innerText = "Break";
             color.style.backgroundColor = "#6e4804";
 
@@ -213,13 +220,15 @@ function countdown () {
         }
         else if ( time <= 1 && action === "Break" ) {
             // Changes from break to work
-            $( "#timer p" ).innerText = active;
+            globalTime = active;
+            $( "#timer p" ).innerText = String(~~(globalTime/60) + ':' + String(globalTime%60).padStart(2, '0'));
             $( "#action p" ).innerText = "Work";
             color.style.backgroundColor = "#118007";
         }
         else if ( time <= 1 && action === "Get Ready!" ) {
             // Used only for first start. Changes from get ready to work
-            $( "#timer p" ).innerText = active;
+            globalTime = active;
+            $( "#timer p" ).innerText = String(~~(globalTime/60) + ':' + String(globalTime%60).padStart(2, '0'));
             $( "#action p" ).innerText = "Work";
             color.style.backgroundColor = "#118007";
         }
