@@ -188,7 +188,6 @@ function countdown () {
     countTime();
     // Executes if timer is not paused
     if ( start.innerText === "PAUSE" || start.innertext === "BREAK" ) {
-        //time = $( "#timer p" ).innerText,
         let time = globalTime,
             action = $( "#action p" ).innerText,
             color = getById( "page" ),
