@@ -248,3 +248,24 @@ function resetStats () {
     statistics[ 5 ].innerText = 0;
     statistics[ 7 ].innerText = 0;
 }
+
+
+var settingsWindow = document.getElementById( "settingsWindow" );
+
+var settings = document.getElementById( "settings" );
+
+var span = document.getElementsByClassName( "close" )[ 0 ];
+
+var saveSettings = document.getElementById( "saveSettings" );
+
+settings.onclick = function () {
+    settingsWindow.style.display = "block";
+}
+
+saveSettings.onclick = function () {
+    settingsWindow.style.display = "none";
+}
+
+span.onclick = function () {
+    settingsWindow.style.display = "none";
+}
