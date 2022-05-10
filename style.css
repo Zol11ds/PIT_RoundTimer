@@ -54,7 +54,6 @@ header {
 #start:hover,
 #reset:hover,
 #finish:hover,
-#fullscreen:hover,
 #settings:hover {
     background-color: white;
     color: rgb(94, 171, 162);
@@ -347,22 +346,27 @@ input:focus {
     left: 20px;
     top: 120px;
     line-height: 50px;
-    width: 200px;
-    background-color: rgb(94, 171, 162);
+    width: 50px;
+    height: 50px;
     font-size: 1.5rem;
     font-weight: bold;
     text-align: center;
     cursor: pointer;
     border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    color: white;
     letter-spacing: 0.5px;
     transition: 0.3s;
+}
+
+#fullscreen:hover {
+
 }
 
 .slideContainer {
     width: 75%;
     margin-top: 200px;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 15px;
 }
 
 .slider {
@@ -395,10 +399,17 @@ input:focus {
     cursor: pointer;
 }
 
-.sldier::-moz-range-thumb{
+.slider::-moz-range-thumb{
     width: 25px;
     height: 25px;
     background: white;
     border-radius: 50%;
     cursor: pointer;
 }
+
+#volume {
+    left: 30px;
+    bottom: 30px;
+
+}
+
