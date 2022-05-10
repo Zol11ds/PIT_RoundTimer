@@ -26,7 +26,7 @@ const slider = getById("myVolRange");
 let statistics = document.querySelectorAll( "ul:last-child li" );
 
 
- slider.addEventListener("mousemove", () => {
+ slider.addEventListener("input", () => {
      var x = slider.value;
      var color = 'linear-gradient(90deg, rgb(117,252,117)' + x + '%, rgb(214, 214, 214)' + x + '%)';
      slider.style.background = color;
