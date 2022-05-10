@@ -162,9 +162,6 @@ header {
 
 #msg {
     width: 401px;
-    background-color: rgba(255, 255, 255, 0.07);
-    border-top: 2px solid rgba(255, 255, 255, 0.5);
-    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 #msg p {
