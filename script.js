@@ -26,7 +26,7 @@ const slider = getById("myVolRange");
 let statistics = document.querySelectorAll( "ul:last-child li" );
 
 
- slider.addEventListener("input", () => {
+ slider.addEventListener("mousemove", () => {
      var x = slider.value;
      var color = 'linear-gradient(90deg, rgb(117,252,117)' + x + '%, rgb(214, 214, 214)' + x + '%)';
      slider.style.background = color;
@@ -48,7 +48,7 @@ start.addEventListener( "click", () => {
 } );
 
 fullscreen.addEventListener("click", () => {
-    if(fullscreen.textContent == "Go Fullscreen"){
+    if(fullscreen.src="icons/fullON.svg"){
         if(myDocument.requestFullscreen){
             myDocument.requestFullscreen();
         }
@@ -62,7 +62,7 @@ fullscreen.addEventListener("click", () => {
             myDocument.webkitRequestFullscreen();
         }
 
-        fullscreen.textContent = "Exit Fullscreen";
+        fullscreen.src="icons/fullOFF.svg";  // karoch mums nav nahuj ne mazaka nojausma kaa izdariit taa, lai exito fullscreen un samainas normali ikona, Janis Lidums please fix and investigate
     }
     else{
         if (document.exitFullscreen){
@@ -78,7 +78,7 @@ fullscreen.addEventListener("click", () => {
             document.webkitRequestFullscreen();
         }
 
-        fullscreen.textContent = "Go Fullscreen";
+        fullscreen.src="icons/fullON.svg";
     }
 })
 
@@ -134,11 +134,13 @@ function timer () {
 
 // Stop timer (when all exercises and sets are finished)
 function stopTimer () {
+    playAudio("sounds/endSets.mp3");
     resetEverything();
     start.style.display = "none";
     finish.style.display = "initial";
     getByTag( "form" )[ 0 ].style.display = "none"; // Hides form
-    getById( "page" ).style.backgroundColor = "#7c1b1fe6";
+    var endCol = 'linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet)';
+    getById( "page" ).style.background = endCol;
     getByClass( "congratulations" )[ 0 ].style.display = "flex";
 }
 
@@ -152,7 +154,7 @@ function resetEverything () {
     reset.style.dataReset = "true"; // Indication that timer has been reset
     $( ".information.stats" ).style.dataCount = "false"; // Disables statistics tracking
     reset.style.display = "none"; // Hides "RESET" button
-
+    getById( "page" ).style.background = "#535354";
     getById( "page" ).style.backgroundColor = "#535354";
 
     // Displays form and repositions buttons
@@ -258,7 +260,7 @@ function countdown () {
         // After all sets are finished: executes "stopTimer"
         if ( time <= 1 && action === "Work" ) {
             // Changes from work to break
-            playAudio("sounds/notificationTest.mp3");
+            playAudio("sounds/break.mp3"); // break sound
             globalTime = pause;
             $( "#timer p" ).innerText = String(~~(globalTime/60) + ':' + String(globalTime%60).padStart(2, '0'));
             $( "#action p" ).innerText = "Break";
@@ -272,6 +274,7 @@ function countdown () {
         }
         else if ( time <= 1 && action === "Break" ) {
             // Changes from break to work
+            playAudio("sounds/startRound.mp3");
             globalTime = active;
             $( "#timer p" ).innerText = String(~~(globalTime/60) + ':' + String(globalTime%60).padStart(2, '0'));
             $( "#action p" ).innerText = "Work";
@@ -279,6 +282,7 @@ function countdown () {
         }
         else if ( time <= 1 && action === "Get Ready!" ) {
             // Used only for first start. Changes from get ready to work
+            playAudio("sounds/startRound.mp3");
             globalTime = active;
             $( "#timer p" ).innerText = String(~~(globalTime/60) + ':' + String(globalTime%60).padStart(2, '0'));
             $( "#action p" ).innerText = "Work";
