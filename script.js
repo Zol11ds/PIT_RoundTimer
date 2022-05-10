@@ -21,8 +21,16 @@ const start = getById( "start" );
 const reset = getById( "reset" );
 const finish = getById( "finish" );
 const inputs = getByTag( "input" );
-const fullscreen = getById( "fullscreen" )
+const fullscreen = getById( "fullscreen" );
+const slider = getById("myVolRange");
 let statistics = document.querySelectorAll( "ul:last-child li" );
+
+
+ slider.addEventListener("mousemove", () => {
+     var x = slider.value;
+     var color = 'linear-gradient(90deg, rgb(117,252,117)' + x + '%, rgb(214, 214, 214)' + x + '%)';
+     slider.style.background = color;
+ });
 
 start.addEventListener( "click", () => {
     // Checks if all the inputs have some kind of value
@@ -96,7 +104,9 @@ inputs[ 2 ].addEventListener( "keyup", () => {
 } );
 
 function playAudio(url) {
-    new Audio(url).play();
+    notif = new Audio(url);
+    notif.volume = slider.value / 100;
+    notif.play();
 }
 
 // Start timer when "START" button is pressed

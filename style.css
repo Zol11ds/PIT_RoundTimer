@@ -267,8 +267,6 @@ input:focus {
     color: white;
 }
 
-
-
 #exercise p {
     display: none;
 }
@@ -346,7 +344,7 @@ input:focus {
 
 #fullscreen {
     position: fixed;
-    right: 1650px;
+    left: 20px;
     top: 120px;
     line-height: 50px;
     width: 200px;
@@ -360,4 +358,47 @@ input:focus {
     color: white;
     letter-spacing: 0.5px;
     transition: 0.3s;
+}
+
+.slideContainer {
+    width: 75%;
+    margin-top: 200px;
+}
+
+.slider {
+    -webkit-appearance: none;
+    position: absolute;
+    left: 30px;
+    bottom: 30px;
+    width: 200px;
+    height: 8px;
+    background: linear-gradient(90deg, rgb(214, 214, 214) 60%, rgb(214,214,214) 60%);
+    outline: none;
+    opacity: 0.4;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+    border-radius: 12px;
+    box-shadow: 0px 1px 10px 1px black;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.sldier::-moz-range-thumb{
+    width: 25px;
+    height: 25px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
 }
