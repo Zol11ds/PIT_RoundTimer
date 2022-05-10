@@ -1,3 +1,4 @@
+let myDocument = document.documentElement;
 var globalTime = 5;
 
 let $ = function ( selector, parent ) {
@@ -20,6 +21,7 @@ const start = getById( "start" );
 const reset = getById( "reset" );
 const finish = getById( "finish" );
 const inputs = getByTag( "input" );
+const fullscreen = getById( "fullscreen" )
 let statistics = document.querySelectorAll( "ul:last-child li" );
 
 start.addEventListener( "click", () => {
@@ -36,6 +38,41 @@ start.addEventListener( "click", () => {
         colorChange();
     }
 } );
+
+fullscreen.addEventListener("click", () => {
+    if(fullscreen.textContent == "Go Fullscreen"){
+        if(myDocument.requestFullscreen){
+            myDocument.requestFullscreen();
+        }
+        else if (myDocument.msRequestFullscreen){
+            myDocument.msRequestFullscreen();
+        }
+        else if (myDocument.mosRequestFullscreen){
+            myDocument.msRequestFullscreen();
+        }
+        else if (myDocument.webkitRequestFullscreen){
+            myDocument.webkitRequestFullscreen();
+        }
+
+        fullscreen.textContent = "Exit Fullscreen";
+    }
+    else{
+        if (document.exitFullscreen){
+            document.exitFullscreen();
+        }
+        else if (document.msexitFullscreen){
+            document.msexitFullscreen();
+        }
+        else if (document.mozexitFullscreen){
+            document.mozexitFullscreen();
+        }
+        else if (document.webkitexitFullscreen){
+            document.webkitRequestFullscreen();
+        }
+
+        fullscreen.textContent = "Go Fullscreen";
+    }
+})
 
 reset.addEventListener( "click", resetEverything );
 reset.addEventListener( "click", resetStats );
@@ -57,6 +94,10 @@ inputs[ 2 ].addEventListener( "change", () => {
 inputs[ 2 ].addEventListener( "keyup", () => {
     $( "#sets p" ).innerText = inputs[ 2 ].value;
 } );
+
+function playAudio(url) {
+    new Audio(url).play();
+}
 
 // Start timer when "START" button is pressed
 function timer () {
@@ -188,6 +229,7 @@ function countdown () {
     countTime();
     // Executes if timer is not paused
     if ( start.innerText === "PAUSE" || start.innertext === "BREAK" ) {
+        //time = $( "#timer p" ).innerText,
         let time = globalTime,
             action = $( "#action p" ).innerText,
             color = getById( "page" ),
@@ -206,6 +248,7 @@ function countdown () {
         // After all sets are finished: executes "stopTimer"
         if ( time <= 1 && action === "Work" ) {
             // Changes from work to break
+            playAudio("sounds/notificationTest.mp3");
             globalTime = pause;
             $( "#timer p" ).innerText = String(~~(globalTime/60) + ':' + String(globalTime%60).padStart(2, '0'));
             $( "#action p" ).innerText = "Break";

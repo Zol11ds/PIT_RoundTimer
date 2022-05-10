@@ -54,6 +54,7 @@ header {
 #start:hover,
 #reset:hover,
 #finish:hover,
+#fullscreen:hover,
 #settings:hover {
     background-color: white;
     color: rgb(94, 171, 162);
@@ -336,6 +337,24 @@ input:focus {
     width: 120px;
     background-color: rgb(94, 171, 162);
     font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    letter-spacing: 0.5px;
+    transition: 0.3s;
+}
+
+#fullscreen {
+    position: fixed;
+    right: 1650px;
+    top: 120px;
+    line-height: 50px;
+    width: 200px;
+    background-color: rgb(94, 171, 162);
+    font-size: 1.5rem;
     font-weight: bold;
     text-align: center;
     cursor: pointer;
