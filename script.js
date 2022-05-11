@@ -215,11 +215,10 @@ function displayStats () {
         ( +statistics[ 3 ].innerText );
 }
 
-// Checks if either of the inputs are empty
 function checkEmptyInputs () {
-    return inputs[ 0 ].value == "" ||
-        inputs[ 1 ].value == "" ||
-        inputs[ 2 ].value == "" ?
+    return inputs[ 0 ].value < 1 ||
+        inputs[ 1 ].value < 1 ||
+        inputs[ 2 ].value < 1 ?
         true : false;
 }
 
