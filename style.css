@@ -343,6 +343,7 @@ input:focus {
 
 #fullscreen {
     position: fixed;
+    opacity: 0.6;
     left: 20px;
     top: 120px;
     line-height: 50px;
@@ -358,7 +359,8 @@ input:focus {
 }
 
 #fullscreen:hover {
-
+    transform: scale(1.1);
+    opacity: 1;
 }
 
 .slideContainer {

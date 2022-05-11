@@ -239,11 +239,11 @@ function colorChange () {
     else if ( actionText === "Get Ready!" ) {
         start.innerText = "PAUSE";
     }
-    else if ( actionText === "WORK" && start.innerText === "CONTINUE" ) {
+    else if ( actionText === "Work" && start.innerText === "CONTINUE" ) {
         start.innerText = "PAUSE";
         color.style.backgroundColor = "#118007";
     }
-    else if ( actionText === "BREAK" && start.innerText === "CONTINUE" ) {
+    else if ( actionText === "Break" && start.innerText === "CONTINUE" ) {
         start.innerText = "PAUSE";
         color.style.backgroundColor = "#535354";
     }
