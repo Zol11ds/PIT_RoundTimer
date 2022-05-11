@@ -1,5 +1,7 @@
 let myDocument = document.documentElement;
 var globalTime = 5;
+var fullscreenImages = [ "icons/fullON.svg", "icons/fullOFF.svg" ];
+var fullscreenImageNumber = 0;
 
 let $ = function ( selector, parent ) {
     return ( parent ? parent : document ).querySelector( selector );
@@ -22,15 +24,16 @@ const reset = getById( "reset" );
 const finish = getById( "finish" );
 const inputs = getByTag( "input" );
 const fullscreen = getById( "fullscreen" );
-const slider = getById("myVolRange");
+fullscreen.src = "icons/fullON.svg";
+const slider = getById( "myVolRange" );
 let statistics = document.querySelectorAll( "ul:last-child li" );
 
 
- slider.addEventListener("mousemove", () => {
-     var x = slider.value;
-     var color = 'linear-gradient(90deg, rgb(117,252,117)' + x + '%, rgb(214, 214, 214)' + x + '%)';
-     slider.style.background = color;
- });
+slider.addEventListener( "mousemove", () => {
+    var x = slider.value;
+    var color = 'linear-gradient(90deg, rgb(117,252,117)' + x + '%, rgb(214, 214, 214)' + x + '%)';
+    slider.style.background = color;
+} );
 
 start.addEventListener( "click", () => {
     // Checks if all the inputs have some kind of value
@@ -47,40 +50,55 @@ start.addEventListener( "click", () => {
     }
 } );
 
-fullscreen.addEventListener("click", () => {
-    if(fullscreen.src="icons/fullON.svg"){
-        if(myDocument.requestFullscreen){
-            myDocument.requestFullscreen();
-        }
-        else if (myDocument.msRequestFullscreen){
-            myDocument.msRequestFullscreen();
-        }
-        else if (myDocument.mosRequestFullscreen){
-            myDocument.msRequestFullscreen();
-        }
-        else if (myDocument.webkitRequestFullscreen){
-            myDocument.webkitRequestFullscreen();
-        }
-
-        fullscreen.src="icons/fullOFF.svg";  // karoch mums nav nahuj ne mazaka nojausma kaa izdariit taa, lai exito fullscreen un samainas normali ikona, Janis Lidums please fix and investigate
+function changeFullscreenImage () {
+    if ( fullscreenImageNumber < 1 ) {
+        fullscreenImageNumber++;
+    } else {
+        fullscreenImageNumber = 0;
     }
-    else{
-        if (document.exitFullscreen){
-            document.exitFullscreen();
-        }
-        else if (document.msexitFullscreen){
-            document.msexitFullscreen();
-        }
-        else if (document.mozexitFullscreen){
-            document.mozexitFullscreen();
-        }
-        else if (document.webkitexitFullscreen){
-            document.webkitRequestFullscreen();
-        }
+    fullscreen.src = fullscreenImages[ fullscreenImageNumber ];
+}
 
-        fullscreen.src="icons/fullON.svg";
+function smolScreen () {
+    if ( document.exitFullscreen ) {
+        document.exitFullscreen();
     }
-})
+    else if ( document.msexitFullscreen ) {
+        document.msexitFullscreen();
+    }
+    else if ( document.mozexitFullscreen ) {
+        document.mozexitFullscreen();
+    }
+    else if ( document.webkitexitFullscreen ) {
+        document.webkitRequestFullscreen();
+    }
+}
+
+function bigScreen () {
+    if ( myDocument.requestFullscreen ) {
+        myDocument.requestFullscreen();
+    }
+    else if ( myDocument.msRequestFullscreen ) {
+        myDocument.msRequestFullscreen();
+    }
+    else if ( myDocument.mosRequestFullscreen ) {
+        myDocument.msRequestFullscreen();
+    }
+    else if ( myDocument.webkitRequestFullscreen ) {
+        myDocument.webkitRequestFullscreen();
+    }
+}
+
+fullscreen.addEventListener( "click", () => {
+    if ( fullscreen.src = fullscreenImages[ 0 ] ) {
+        bigScreen();
+    }
+
+    if ( fullscreen.src = fullscreenImages[ 1 ] ) {
+        smolScreen();
+    }
+    changeFullscreenImage();
+} )
 
 reset.addEventListener( "click", resetEverything );
 reset.addEventListener( "click", resetStats );
@@ -103,8 +121,8 @@ inputs[ 2 ].addEventListener( "keyup", () => {
     $( "#sets p" ).innerText = inputs[ 2 ].value;
 } );
 
-function playAudio(url) {
-    notif = new Audio(url);
+function playAudio ( url ) {
+    notif = new Audio( url );
     notif.volume = slider.value / 100;
     notif.play();
 }
@@ -134,7 +152,7 @@ function timer () {
 
 // Stop timer (when all exercises and sets are finished)
 function stopTimer () {
-    playAudio("sounds/endSets.mp3");
+    playAudio( "sounds/endSets.mp3" );
     resetEverything();
     start.style.display = "none";
     finish.style.display = "initial";
@@ -251,8 +269,8 @@ function countdown () {
 
         // Subtracts 1 second from running time
         globalTime--;
-        if (action === "Get Ready!" ) $( "#timer p" ).innerText = globalTime;
-        else $( "#timer p" ).innerText = String(~~(globalTime/60) + ':' + String(globalTime%60).padStart(2, '0'));
+        if ( action === "Get Ready!" ) $( "#timer p" ).innerText = globalTime;
+        else $( "#timer p" ).innerText = String( ~~( globalTime / 60 ) + ':' + String( globalTime % 60 ).padStart( 2, '0' ) );
         //$( "#timer p" ).innerText--;
 
         // After a repetition is finished: changes screen color, exercise text, action text
@@ -260,9 +278,9 @@ function countdown () {
         // After all sets are finished: executes "stopTimer"
         if ( time <= 1 && action === "Work" ) {
             // Changes from work to break
-            playAudio("sounds/break.mp3"); // break sound
+            playAudio( "sounds/break.mp3" ); // break sound
             globalTime = pause;
-            $( "#timer p" ).innerText = String(~~(globalTime/60) + ':' + String(globalTime%60).padStart(2, '0'));
+            $( "#timer p" ).innerText = String( ~~( globalTime / 60 ) + ':' + String( globalTime % 60 ).padStart( 2, '0' ) );
             $( "#action p" ).innerText = "Break";
             color.style.backgroundColor = "#6e4804";
 
@@ -274,17 +292,17 @@ function countdown () {
         }
         else if ( time <= 1 && action === "Break" ) {
             // Changes from break to work
-            playAudio("sounds/startRound.mp3");
+            playAudio( "sounds/startRound.mp3" );
             globalTime = active;
-            $( "#timer p" ).innerText = String(~~(globalTime/60) + ':' + String(globalTime%60).padStart(2, '0'));
+            $( "#timer p" ).innerText = String( ~~( globalTime / 60 ) + ':' + String( globalTime % 60 ).padStart( 2, '0' ) );
             $( "#action p" ).innerText = "Work";
             color.style.backgroundColor = "#118007";
         }
         else if ( time <= 1 && action === "Get Ready!" ) {
             // Used only for first start. Changes from get ready to work
-            playAudio("sounds/startRound.mp3");
+            playAudio( "sounds/startRound.mp3" );
             globalTime = active;
-            $( "#timer p" ).innerText = String(~~(globalTime/60) + ':' + String(globalTime%60).padStart(2, '0'));
+            $( "#timer p" ).innerText = String( ~~( globalTime / 60 ) + ':' + String( globalTime % 60 ).padStart( 2, '0' ) );
             $( "#action p" ).innerText = "Work";
             color.style.backgroundColor = "#118007";
         }
