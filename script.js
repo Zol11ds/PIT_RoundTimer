@@ -24,7 +24,6 @@ const reset = getById( "reset" );
 const finish = getById( "finish" );
 const inputs = getByTag( "input" );
 const fullscreen = getById( "fullscreen" );
-fullscreen.src = "icons/fullON.svg";
 const slider = getById( "myVolRange" );
 let statistics = document.querySelectorAll( "ul:last-child li" );
 
