@@ -17,8 +17,97 @@
         <div id="settingsWindow" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h2>Settings</h2>
-                <p>Settings go here</p>
+                <form class="settings form">
+                    <ul>
+                        <h2>Settings</h2>
+                        <li>
+                            <label for="preset-name">Preset name:</label>
+                            <input type="text" name="preset-name" placeholder="Name">
+                        </li>
+                        <li>
+                            <label for="rounds">Rounds:</label>
+                            <input type="number" min="0" name="rounds" placeholder="Rounds">
+                        </li>
+                        <li>
+                            <label for="active-time">Active time:</label>
+                            <input type="number" min="0" name="active-time" placeholder="Seconds">
+                        </li>
+                        <li>
+                            <label for="break-time">Break time:</label>
+                            <input type="number" min="0" name="Break-time" placeholder="Seconds">
+                        </li>
+                        <li>
+                            <label for="warning-time">Round end warning:</label>
+                            <input type="number" min="0" name="warning-time" placeholder="Seconds">
+                        </li>
+                        <li>
+                            <label for="prepare-time">Prepare time:</label>
+                            <input type="number" min="0" name="prepare-time" placeholder="Seconds">
+                        </li>
+                        <li>
+                            <label for="enable-rests">Break time:</label>
+                            <input type="checkbox" name="enable-rests">
+                        </li>
+                        <li>
+                            <label for="enable-keepscreen">Keep screen on:</label>
+                            <input type="checkbox" name="enable-keepscreen">
+                        </li>
+                        <h2>Sounds</h2>
+                        <li>
+                            <label for="start-sound">Start/End round:</label>
+                            <select name="start-sound" id="start-sound">
+                                <option value="sound1">Sound1</option>
+                                <option value="sound2">Sound2</option>
+                                <option value="sound3">Sound3</option>
+                                <option value="sound4">Sound4</option>
+                              </select>
+                        </li>
+                        <li>
+                            <label for="before-round-sound">Before round end</label>
+                            <select name="before-round-sound" id="before-round-sound">
+                                <option value="sound1">Sound1</option>
+                                <option value="sound2">Sound2</option>
+                                <option value="sound3">Sound3</option>
+                                <option value="sound4">Sound4</option>
+                              </select>
+                        </li>
+                        <li>
+                            <label for="before-rest-sound">Before rest end</label>
+                            <select name="before-rest-sound" id="before-rest-sound">
+                                <option value="sound1">Sound1</option>
+                                <option value="sound2">Sound2</option>
+                                <option value="sound3">Sound3</option>
+                                <option value="sound4">Sound4</option>
+                              </select>
+                        </li>
+                        <li>
+                            <label for="inner-round-sound">Inner round alert</label>
+                            <select name="inner-round-sound" id="inner-round-sound">
+                                <option value="sound1">Sound1</option>
+                                <option value="sound2">Sound2</option>
+                                <option value="sound3">Sound3</option>
+                                <option value="sound4">Sound4</option>
+                              </select>
+                        </li>
+                        <h2>Colors</h2>
+                        <li>
+                            <label for="enable-colors">Use custom colors:</label>
+                            <input type="checkbox" name="enable-colors">
+                        </li>
+                        <li>
+                            <label for="round-color">Round color:</label>
+                            <input type="color" name="round-color" id="round-color" value="#31f716">
+                        </li>
+                        <li>
+                            <label for="warning-color">Round color:</label>
+                            <input type="color" name="warning-color" id="warning-color" value="#80827f">
+                        </li>
+                        <li>
+                            <label for="rest-color">Round color:</label>
+                            <input type="color" name="rest-color" id="rest-color" value="#fc8719">
+                        </li>
+                    </ul>
+                </form>
                 <button id="saveSettings">Save</button>
             </div>
         </div>
@@ -30,9 +119,9 @@
         <div id="finish">FINISH</div>
 
         <form class="information form">
-            Active time: <input type="number" min="1" name="work-length" placeholder="Seconds">
-            Break time: <input type="number" min="1" name="break-length" placeholder="Seconds">
-            Rounds: <input type="number" min="1" name="sets-length" placeholder="Count">
+            Active time: <input type="number" min="0" name="work-length" placeholder="Seconds">
+            Break time: <input type="number" min="0" name="break-length" placeholder="Seconds">
+            Rounds: <input type="number" min="0" name="sets-length" placeholder="Count">
         </form>
 
         <div class="information congratulations">
