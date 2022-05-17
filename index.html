@@ -22,35 +22,35 @@
                         <h2>Settings</h2>
                         <li>
                             <label for="preset-name">Preset name:</label>
-                            <input type="text" name="preset-name" placeholder="Name">
+                            <input type="text" name="preset-name" id="preset-name" placeholder="Name">
                         </li>
                         <li>
                             <label for="rounds">Rounds:</label>
-                            <input type="number" min="0" name="rounds" placeholder="Rounds">
+                            <input type="number" min="0" name="rounds-count" id="rounds-count" placeholder="Rounds">
                         </li>
                         <li>
                             <label for="active-time">Active time:</label>
-                            <input type="number" min="0" name="active-time" placeholder="Seconds">
+                            <input type="number" min="0" name="active-time" id="active-time" placeholder="Seconds">
                         </li>
                         <li>
                             <label for="break-time">Break time:</label>
-                            <input type="number" min="0" name="Break-time" placeholder="Seconds">
+                            <input type="number" min="0" name="break-time" id="break-time" placeholder="Seconds">
                         </li>
                         <li>
                             <label for="warning-time">Round end warning:</label>
-                            <input type="number" min="0" name="warning-time" placeholder="Seconds">
+                            <input type="number" min="0" name="warning-time" id="warning-time" placeholder="Seconds">
                         </li>
                         <li>
                             <label for="prepare-time">Prepare time:</label>
-                            <input type="number" min="0" name="prepare-time" placeholder="Seconds">
+                            <input type="number" min="0" name="prepare-time" id="prepare-time" placeholder="Seconds">
                         </li>
                         <li>
                             <label for="enable-rests">Break time:</label>
-                            <input type="checkbox" name="enable-rests">
+                            <input type="checkbox" name="enable-rests" id="enable-rests">
                         </li>
                         <li>
                             <label for="enable-keepscreen">Keep screen on:</label>
-                            <input type="checkbox" name="enable-keepscreen">
+                            <input type="checkbox" name="enable-keepscreen" id="enable-keepscreen">
                         </li>
                         <h2>Sounds</h2>
                         <li>
@@ -92,7 +92,7 @@
                         <h2>Colors</h2>
                         <li>
                             <label for="enable-colors">Use custom colors:</label>
-                            <input type="checkbox" name="enable-colors">
+                            <input type="checkbox" name="enable-colors" id="enable-colors">
                         </li>
                         <li>
                             <label for="round-color">Round color:</label>
@@ -119,9 +119,9 @@
         <div id="finish">FINISH</div>
 
         <form class="information form">
-            Active time: <input type="number" min="0" name="work-length" placeholder="Seconds">
-            Break time: <input type="number" min="0" name="break-length" placeholder="Seconds">
-            Rounds: <input type="number" min="0" name="sets-length" placeholder="Count">
+            Active time: <input type="number" min="0" name="work-length" id="work-length" placeholder="Seconds">
+            Break time: <input type="number" min="0" name="break-length" id="break-length" placeholder="Seconds">
+            Rounds: <input type="number" min="0" name="sets-length" id="sets-length" placeholder="Count">
         </form>
 
         <div class="information congratulations">

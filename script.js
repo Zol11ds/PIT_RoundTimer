@@ -25,8 +25,6 @@ const finish = getById( "finish" );
 const inputs = getByTag( "input" );
 const fullscreen = getById( "fullscreen" );
 const slider = getById( "myVolRange" );
-let statistics = document.querySelectorAll( "ul:last-child li" );
-
 
 slider.addEventListener( "mousemove", () => {
     var x = slider.value;
@@ -100,24 +98,23 @@ fullscreen.addEventListener( "click", () => {
 } )
 
 reset.addEventListener( "click", resetEverything );
-reset.addEventListener( "click", resetStats );
 finish.addEventListener( "click", displayStats );
 
 // Changes and displays active time and sets once started, when written(changed) in input
-inputs[ 0 ].addEventListener( "change", () => {
-    $( "#timer p" ).innerText = inputs[ 0 ].value;
+document.getElementById("work-length").addEventListener( "change", () => {
+    $( "#timer p" ).innerText = document.getElementById("work-length").value;
 } );
 
-inputs[ 0 ].addEventListener( "keyup", () => {
-    $( "#timer p" ).innerText = inputs[ 0 ].value;
+document.getElementById("work-length").addEventListener( "keyup", () => {
+    $( "#timer p" ).innerText = document.getElementById("work-length").value;
 } );
 
-inputs[ 2 ].addEventListener( "change", () => {
-    $( "#sets p" ).innerText = inputs[ 2 ].value;
+document.getElementById("sets-length").addEventListener( "change", () => {
+    $( "#sets p" ).innerText = document.getElementById("sets-length").value;
 } );
 
-inputs[ 2 ].addEventListener( "keyup", () => {
-    $( "#sets p" ).innerText = inputs[ 2 ].value;
+document.getElementById("sets-length").addEventListener( "keyup", () => {
+    $( "#sets p" ).innerText = document.getElementById("sets-length").value;
 } );
 
 function playAudio ( url ) {
@@ -130,19 +127,17 @@ function playAudio ( url ) {
 function timer () {
     // First start
     if ( $( "#action p" ).innerText === "" ) {
-        getByTag( "form" )[ 0 ].style.display = "none";       // Hides form
+        getByTag( "form" )[ 1 ].style.display = "none";       // Hides form
         start.style.top = "100px";                        // Lowers down `START` button
         reset.style.top = "100px";                        // Lowers down `RESET` button
         $( "#action p" ).innerText = "Get Ready!";          // Changes action text
         $( "#timer p" ).innerText = 5;                     // Initial countdown ("Get Ready!")
-        $( ".information.stats" ).style.dataCount = "true"; // Starts tracking statistics
 
         // Displays all the necessary exercise information
         getById( "action" ).style.display = "initial";
         getById( "sets" ).style.display = "initial";
         getById( "timer" ).style.display = "initial";
 
-        resetStats();
     }
     if ( reset.style.dataReset !== "true" ) {
         setInterval( countdown, 1000 );
@@ -155,7 +150,7 @@ function stopTimer () {
     resetEverything();
     start.style.display = "none";
     finish.style.display = "initial";
-    getByTag( "form" )[ 0 ].style.display = "none"; // Hides form
+    getByTag( "form" )[ 1 ].style.display = "none"; // Hides form
     var endCol = 'linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet)';
     getById( "page" ).style.background = endCol;
     getByClass( "congratulations" )[ 0 ].style.display = "flex";
@@ -164,18 +159,15 @@ function stopTimer () {
 // Executes when "RESET" button is pressed
 function resetEverything () {
     globalTime = 5;
-    if ( start.style.display = "none" ) { start.style.display = "initial"; }
-    getByClass( "stats" )[ 0 ].style.display = "none"; // Hides statistics
 
     start.innerText = "START";
     reset.style.dataReset = "true"; // Indication that timer has been reset
-    $( ".information.stats" ).style.dataCount = "false"; // Disables statistics tracking
     reset.style.display = "none"; // Hides "RESET" button
     getById( "page" ).style.background = "#535354";
     getById( "page" ).style.backgroundColor = "#535354";
 
     // Displays form and repositions buttons
-    getByTag( "form" )[ 0 ].style.display = "flex";
+    getByTag( "form" )[ 1 ].style.display = "flex";
     start.style.top = "120px";
     reset.style.top = "120px";
 
@@ -185,9 +177,9 @@ function resetEverything () {
     $( "#sets p" ).innerText = "";
 
     // Resets inputs' values
-    inputs[ 0 ].value = "";
-    inputs[ 1 ].value = "";
-    inputs[ 2 ].value = "";
+    document.getElementById("work-length").value = "";
+    document.getElementById("break-length").value = "";
+    document.getElementById("sets-length").value = "";
 
     // Hides the information related to exercises
     getById( "action" ).style.display = "none";
@@ -208,18 +200,13 @@ function displayStats () {
     getByClass( "information" )[ 1 ].style.display = "none";
     getByClass( "stats" )[ 0 ].style.display = "flex";
     reset.style.top = "100px";
-
-    // Total time
-    statistics[ 4 ].innerText = ( +statistics[ 1 ].innerText ) +
-        ( +statistics[ 2 ].innerText ) +
-        ( +statistics[ 3 ].innerText );
 }
 
 // Checks if either of the inputs are empty
 function checkEmptyInputs () {
-    return inputs[ 0 ].value == "" ||
-        inputs[ 1 ].value == "" ||
-        inputs[ 2 ].value == "" ?
+    return document.getElementById("work-length").value == "" ||
+        document.getElementById("break-length").value == "" ||
+        document.getElementById("sets-length").value == "" ?
         true : false;
 }
 
@@ -255,15 +242,14 @@ function colorChange () {
 
 // Counts down time and changes things related to time
 function countdown () {
-    countTime();
     // Executes if timer is not paused
     if ( start.innerText === "PAUSE" || start.innertext === "BREAK" ) {
         //time = $( "#timer p" ).innerText,
         let time = globalTime,
             action = $( "#action p" ).innerText,
             color = getById( "page" ),
-            active = inputs[ 0 ].value,
-            pause = inputs[ 1 ].value,
+            active = document.getElementById("work-length").value,
+            pause = document.getElementById("work-length").value,
             sets = $( "#sets p" ).innerText;
 
         // Subtracts 1 second from running time
@@ -307,30 +293,6 @@ function countdown () {
         }
     }
 }
-
-function countTime () {
-    if ( $( ".information.stats" ).style.dataCount === "true" ) {
-        let action = $( "#action p" ).innerText;
-        if ( start.innerText === "CONTINUE" ) { statistics[ 3 ].innerText++; }
-        else if ( action === "Work" ) { statistics[ 1 ].innerText++; }
-        else if ( action === "Break" ) { statistics[ 2 ].innerText++; }
-    }
-}
-
-function countSets () {
-    if ( $( ".information.stats" ).style.dataCount === "true" ) {
-        statistics[ 5 ].innerText++;
-    }
-}
-
-function resetStats () {
-    statistics[ 1 ].innerText = 0;
-    statistics[ 2 ].innerText = 0;
-    statistics[ 3 ].innerText = 0;
-    statistics[ 5 ].innerText = 0;
-    statistics[ 7 ].innerText = 0;
-}
-
 
 var settingsWindow = document.getElementById( "settingsWindow" );
 
