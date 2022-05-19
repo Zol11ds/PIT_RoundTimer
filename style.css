@@ -174,10 +174,10 @@ header {
 }
 
 #required {
-    background-color: rgb(94, 171, 162);
-    position: relative;
-    top: -35px;
-    left: 130px;
+    background-color: rgb(224, 35, 35);
+    position: fixed;
+    top: 210px;
+    right: 20px;
     width: 90px;
     padding: 0 6px 0 18px;
     height: 95px;
@@ -345,8 +345,8 @@ input:focus {
 #fullscreen {
     position: fixed;
     opacity: 0.6;
-    left: 20px;
-    top: 120px;
+    right: 20px;
+    bottom: 20px;
     line-height: 50px;
     width: 50px;
     height: 50px;
@@ -379,7 +379,7 @@ input:focus {
     bottom: 30px;
     width: 200px;
     height: 8px;
-    background: linear-gradient(90deg, rgb(214, 214, 214) 60%, rgb(214,214,214) 60%);
+    background: linear-gradient(90deg, rgb(214, 214, 214) 60%, rgb(214, 214, 214) 60%);
     outline: none;
     opacity: 0.4;
     -webkit-transition: 0.2s;
@@ -402,7 +402,7 @@ input:focus {
     cursor: pointer;
 }
 
-.slider::-moz-range-thumb{
+.slider::-moz-range-thumb {
     width: 25px;
     height: 25px;
     background: white;
@@ -421,7 +421,7 @@ ul {
     margin: 0;
 }
 
-form li + li {
+form li+li {
     margin-top: 5px;
 }
 
@@ -430,14 +430,17 @@ label {
     display: inline-block;
     width: 160px;
     text-align: right;
-  }
+}
 
-  textarea {
+textarea {
     /* Align multiline text fields with their labels */
     vertical-align: top;
-  
+
     /* Provide space to type some text */
     height: 1em;
-  }
+}
 
-label, input { margin-bottom: -5px; }
+label,
+input {
+    margin-bottom: -5px;
+}

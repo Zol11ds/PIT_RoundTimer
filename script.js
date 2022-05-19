@@ -2,6 +2,9 @@ let myDocument = document.documentElement;
 var globalTime = 5;
 var fullscreenImages = [ "icons/fullON.svg", "icons/fullOFF.svg" ];
 var fullscreenImageNumber = 0;
+var defaultRounds = "2";
+var defaultActiveTime = "2";
+var defaultBreakTime = "2";
 
 let $ = function ( selector, parent ) {
     return ( parent ? parent : document ).querySelector( selector );
@@ -101,21 +104,30 @@ reset.addEventListener( "click", resetEverything );
 finish.addEventListener( "click", displayStats );
 
 // Changes and displays active time and sets once started, when written(changed) in input
-document.getElementById("work-length").addEventListener( "change", () => {
-    $( "#timer p" ).innerText = document.getElementById("work-length").value;
+document.getElementById( "active-time" ).addEventListener( "change", () => {
+    $( "#timer p" ).innerText = document.getElementById( "active-time" ).value;
 } );
 
-document.getElementById("work-length").addEventListener( "keyup", () => {
-    $( "#timer p" ).innerText = document.getElementById("work-length").value;
+document.getElementById( "active-time" ).addEventListener( "keyup", () => {
+    $( "#timer p" ).innerText = document.getElementById( "active-time" ).value;
 } );
 
-document.getElementById("sets-length").addEventListener( "change", () => {
-    $( "#sets p" ).innerText = document.getElementById("sets-length").value;
+document.getElementById( "rounds-count" ).addEventListener( "change", () => {
+    $( "#sets p" ).innerText = document.getElementById( "rounds-count" ).value;
 } );
 
-document.getElementById("sets-length").addEventListener( "keyup", () => {
-    $( "#sets p" ).innerText = document.getElementById("sets-length").value;
+document.getElementById( "rounds-count" ).addEventListener( "keyup", () => {
+    $( "#sets p" ).innerText = document.getElementById( "rounds-count" ).value;
 } );
+
+document.getElementById( "active-time" ).value = defaultActiveTime;
+document.getElementById( "break-time" ).value = defaultBreakTime;
+document.getElementById( "rounds-count" ).value = defaultRounds;
+
+function loadSettingsOnStart () {
+    $( "#sets p" ).innerText = document.getElementById( "rounds-count" ).value;
+    $( "#timer p" ).innerText = document.getElementById( "active-time" ).value;
+}
 
 function playAudio ( url ) {
     notif = new Audio( url );
@@ -125,9 +137,10 @@ function playAudio ( url ) {
 
 // Start timer when "START" button is pressed
 function timer () {
+    loadSettingsOnStart();
     // First start
     if ( $( "#action p" ).innerText === "" ) {
-        getByTag( "form" )[ 1 ].style.display = "none";       // Hides form
+        //getByTag( "form" )[ 1 ].style.display = "none";       // Hides form
         start.style.top = "100px";                        // Lowers down `START` button
         reset.style.top = "100px";                        // Lowers down `RESET` button
         $( "#action p" ).innerText = "Get Ready!";          // Changes action text
@@ -150,7 +163,7 @@ function stopTimer () {
     resetEverything();
     start.style.display = "none";
     finish.style.display = "initial";
-    getByTag( "form" )[ 1 ].style.display = "none"; // Hides form
+    //getByTag( "form" )[ 1 ].style.display = "none"; // Hides form
     var endCol = 'linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet)';
     getById( "page" ).style.background = endCol;
     getByClass( "congratulations" )[ 0 ].style.display = "flex";
@@ -167,7 +180,7 @@ function resetEverything () {
     getById( "page" ).style.backgroundColor = "#535354";
 
     // Displays form and repositions buttons
-    getByTag( "form" )[ 1 ].style.display = "flex";
+    //getByTag( "form" )[ 1 ].style.display = "flex";
     start.style.top = "120px";
     reset.style.top = "120px";
 
@@ -177,9 +190,9 @@ function resetEverything () {
     $( "#sets p" ).innerText = "";
 
     // Resets inputs' values
-    document.getElementById("work-length").value = "";
-    document.getElementById("break-length").value = "";
-    document.getElementById("sets-length").value = "";
+    document.getElementById( "active-time" ).value = defaultActiveTime;
+    document.getElementById( "break-time" ).value = defaultBreakTime;
+    document.getElementById( "rounds-count" ).value = defaultRounds;
 
     // Hides the information related to exercises
     getById( "action" ).style.display = "none";
@@ -204,9 +217,9 @@ function displayStats () {
 
 // Checks if either of the inputs are empty
 function checkEmptyInputs () {
-    return document.getElementById("work-length").value == "" ||
-        document.getElementById("break-length").value == "" ||
-        document.getElementById("sets-length").value == "" ?
+    return document.getElementById( "active-time" ).value == "" ||
+        document.getElementById( "break-time" ).value == "" ||
+        document.getElementById( "rounds-count" ).value == "" ?
         true : false;
 }
 
@@ -248,8 +261,8 @@ function countdown () {
         let time = globalTime,
             action = $( "#action p" ).innerText,
             color = getById( "page" ),
-            active = document.getElementById("work-length").value,
-            pause = document.getElementById("work-length").value,
+            active = document.getElementById( "active-time" ).value,
+            pause = document.getElementById( "break-time" ).value,
             sets = $( "#sets p" ).innerText;
 
         // Subtracts 1 second from running time
