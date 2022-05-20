@@ -166,7 +166,7 @@ function stopTimer () {
 
 // Executes when "RESET" button is pressed
 function resetEverything () {
-    globalTime = currentSettings.get('roundCount');
+    globalTime = currentSettings.get('prepareTime');
 
     start.innerText = "START";
     reset.style.dataReset = "true"; // Indication that timer has been reset
