@@ -212,12 +212,10 @@ function displayStats () {
 
 // Checks if either of the inputs are empty
 function checkEmptyInputs () {
-    /*
-    return document.getElementById( "active-time" ).value == "" ||
-        document.getElementById( "break-time" ).value == "" ||
-        document.getElementById( "rounds-count" ).value == "" ?
-        true : false;
-    */
+   if (inputs[0].value == "") return true;
+   for (let i = 1; i < 5; i++){
+       if (inputs[i].value < 1 || inputs[i].value == "") return true;
+   }
    return false;
 }
 
@@ -332,9 +330,17 @@ function saveToCurrentSettings () {
 }
 
 saveSettings.onclick = function () {
+    if (checkEmptyInputs()){
+        getById( "required" ).style.opacity = 1;
+        getById( "saveSettings" ).style.backgroundColor = "#df3030";
+    }
+    else {
+    getById( "required" ).style.opacity = 0; 
+    getById( "saveSettings" ).style.backgroundColor = "#5eaba2";
     saveToCurrentSettings();
     globalTime = currentSettings.get('prepareTime');
     settingsWindow.style.display = "none";
+    }
 }
 
 span.onclick = function () {

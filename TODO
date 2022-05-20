@@ -1,7 +1,6 @@
 ## TODO
 !!! CRITICAL !!!
 
-- settings need input checking
 - configuration based on settings (i.e. custom/default backround colors, enable break time etc.)
 - in settings tab disable inputs if the according checkbox is disabled
 
