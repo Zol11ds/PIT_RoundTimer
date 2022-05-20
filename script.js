@@ -1,10 +1,26 @@
 let myDocument = document.documentElement;
-var globalTime = 5;
+const defaultSettings = new Map([
+    ['presetName', 'Default'],
+    ['roundCount', 3], 
+    ['activeTime', 30], 
+    ['breakTime', 15], 
+    ['endWarningTime', 10], 
+    ['prepareTime', 10], 
+    ['enableBreakTime', true], 
+    ['enableKeepScreen', false], 
+    ['startSound', 'startRound.mp3'],
+    ['beforeRoundEndSound', 'break.mp3'],
+    ['beforeRestEndSound', 'notificationTest.mp3'],
+    ['innerRoundSound', 'notificationTest.mp3'],
+    ['useCustomColors', false],
+    ['roundColor', '#118007'],
+    ['warningColor', '#80827f'],
+    ['restColor', '#6e4804']
+    ]);
+var currentSettings = new Map(defaultSettings);
+var globalTime = defaultSettings.get('prepareTime');
 var fullscreenImages = [ "icons/fullON.svg", "icons/fullOFF.svg" ];
 var fullscreenImageNumber = 0;
-var defaultRounds = "2";
-var defaultActiveTime = "2";
-var defaultBreakTime = "2";
 
 let $ = function ( selector, parent ) {
     return ( parent ? parent : document ).querySelector( selector );
@@ -103,30 +119,9 @@ fullscreen.addEventListener( "click", () => {
 reset.addEventListener( "click", resetEverything );
 finish.addEventListener( "click", displayStats );
 
-// Changes and displays active time and sets once started, when written(changed) in input
-document.getElementById( "active-time" ).addEventListener( "change", () => {
-    $( "#timer p" ).innerText = document.getElementById( "active-time" ).value;
-} );
-
-document.getElementById( "active-time" ).addEventListener( "keyup", () => {
-    $( "#timer p" ).innerText = document.getElementById( "active-time" ).value;
-} );
-
-document.getElementById( "rounds-count" ).addEventListener( "change", () => {
-    $( "#sets p" ).innerText = document.getElementById( "rounds-count" ).value;
-} );
-
-document.getElementById( "rounds-count" ).addEventListener( "keyup", () => {
-    $( "#sets p" ).innerText = document.getElementById( "rounds-count" ).value;
-} );
-
-document.getElementById( "active-time" ).value = defaultActiveTime;
-document.getElementById( "break-time" ).value = defaultBreakTime;
-document.getElementById( "rounds-count" ).value = defaultRounds;
-
 function loadSettingsOnStart () {
-    $( "#sets p" ).innerText = document.getElementById( "rounds-count" ).value;
-    $( "#timer p" ).innerText = document.getElementById( "active-time" ).value;
+    $( "#timer p" ).innerText = currentSettings.get('activeTime');
+    $( "#sets p" ).innerText = currentSettings.get('roundCount');
 }
 
 function playAudio ( url ) {
@@ -144,7 +139,7 @@ function timer () {
         start.style.top = "100px";                        // Lowers down `START` button
         reset.style.top = "100px";                        // Lowers down `RESET` button
         $( "#action p" ).innerText = "Get Ready!";          // Changes action text
-        $( "#timer p" ).innerText = 5;                     // Initial countdown ("Get Ready!")
+        $( "#timer p" ).innerText = currentSettings.get('prepareTime');                     // Initial countdown ("Get Ready!")
 
         // Displays all the necessary exercise information
         getById( "action" ).style.display = "initial";
@@ -171,7 +166,7 @@ function stopTimer () {
 
 // Executes when "RESET" button is pressed
 function resetEverything () {
-    globalTime = 5;
+    globalTime = currentSettings.get('roundCount');
 
     start.innerText = "START";
     reset.style.dataReset = "true"; // Indication that timer has been reset
@@ -190,9 +185,9 @@ function resetEverything () {
     $( "#sets p" ).innerText = "";
 
     // Resets inputs' values
-    document.getElementById( "active-time" ).value = defaultActiveTime;
-    document.getElementById( "break-time" ).value = defaultBreakTime;
-    document.getElementById( "rounds-count" ).value = defaultRounds;
+    document.getElementById( "active-time" ).value = currentSettings.get('activeTime');
+    document.getElementById( "break-time" ).value = currentSettings.get('breakTime');
+    document.getElementById( "rounds-count" ).value = currentSettings.get('roundCount');
 
     // Hides the information related to exercises
     getById( "action" ).style.display = "none";
@@ -217,10 +212,13 @@ function displayStats () {
 
 // Checks if either of the inputs are empty
 function checkEmptyInputs () {
+    /*
     return document.getElementById( "active-time" ).value == "" ||
         document.getElementById( "break-time" ).value == "" ||
         document.getElementById( "rounds-count" ).value == "" ?
         true : false;
+    */
+   return false;
 }
 
 // Changes color and button text when either of the buttons are pressed
@@ -257,26 +255,24 @@ function colorChange () {
 function countdown () {
     // Executes if timer is not paused
     if ( start.innerText === "PAUSE" || start.innertext === "BREAK" ) {
-        //time = $( "#timer p" ).innerText,
         let time = globalTime,
             action = $( "#action p" ).innerText,
             color = getById( "page" ),
-            active = document.getElementById( "active-time" ).value,
-            pause = document.getElementById( "break-time" ).value,
+            active = currentSettings.get('activeTime'),
+            pause = currentSettings.get('breakTime'),
             sets = $( "#sets p" ).innerText;
 
         // Subtracts 1 second from running time
         globalTime--;
         if ( action === "Get Ready!" ) $( "#timer p" ).innerText = globalTime;
         else $( "#timer p" ).innerText = String( ~~( globalTime / 60 ) + ':' + String( globalTime % 60 ).padStart( 2, '0' ) );
-        //$( "#timer p" ).innerText--;
 
         // After a repetition is finished: changes screen color, exercise text, action text
         // After a set is finished: lowers sets number by 1
         // After all sets are finished: executes "stopTimer"
         if ( time <= 1 && action === "Work" ) {
             // Changes from work to break
-            playAudio( "sounds/break.mp3" ); // break sound
+            playAudio(String("sounds/" + currentSettings.get('beforeRoundEndSound'))); // break sound
             globalTime = pause;
             $( "#timer p" ).innerText = String( ~~( globalTime / 60 ) + ':' + String( globalTime % 60 ).padStart( 2, '0' ) );
             $( "#action p" ).innerText = "Break";
@@ -290,7 +286,7 @@ function countdown () {
         }
         else if ( time <= 1 && action === "Break" ) {
             // Changes from break to work
-            playAudio( "sounds/startRound.mp3" );
+            playAudio(String("sounds/" + currentSettings.get('startSound')));
             globalTime = active;
             $( "#timer p" ).innerText = String( ~~( globalTime / 60 ) + ':' + String( globalTime % 60 ).padStart( 2, '0' ) );
             $( "#action p" ).innerText = "Work";
@@ -298,7 +294,7 @@ function countdown () {
         }
         else if ( time <= 1 && action === "Get Ready!" ) {
             // Used only for first start. Changes from get ready to work
-            playAudio( "sounds/startRound.mp3" );
+            playAudio(String("sounds/" + currentSettings.get('startSound')));
             globalTime = active;
             $( "#timer p" ).innerText = String( ~~( globalTime / 60 ) + ':' + String( globalTime % 60 ).padStart( 2, '0' ) );
             $( "#action p" ).innerText = "Work";
@@ -319,7 +315,25 @@ settings.onclick = function () {
     settingsWindow.style.display = "block";
 }
 
+function saveToCurrentSettings () {
+    let i = 0;
+    for (const key of currentSettings.keys()) {
+        if (key !== 'startSound' && key !== 'beforeRoundEndSound' && key !== 'beforeRestEndSound' && key !== 'innerRoundSound' ){
+            //console.log(key);
+            if (i !== 6 && i !== 7 && i !== 8){currentSettings.set(key, String(inputs[i].value));}
+            else {currentSettings.set(key, inputs[i].checked);}
+            i = i + 1;
+        }
+    }
+    currentSettings.set('startSound', document.getElementById('start-sound').value);
+    currentSettings.set('beforeRoundEndSound', document.getElementById('before-round-sound').value);
+    currentSettings.set('beforeRestEndSound', document.getElementById('before-rest-sound').value);
+    currentSettings.set('innerRoundSound', document.getElementById('inner-round-sound').value);
+}
+
 saveSettings.onclick = function () {
+    saveToCurrentSettings();
+    globalTime = currentSettings.get('prepareTime');
     settingsWindow.style.display = "none";
 }
 
