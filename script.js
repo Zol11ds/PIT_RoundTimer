@@ -14,13 +14,14 @@ const defaultSettings = new Map([
     ['innerRoundSound', 'notificationTest.mp3'],
     ['useCustomColors', false],
     ['roundColor', '#118007'],
-    ['warningColor', '#80827f'],
-    ['restColor', '#6e4804']
+    ['warningColor', '#b04a0b'],
+    ['restColor', '#b08909']
     ]);
 var currentSettings = new Map(defaultSettings);
 var globalTime = defaultSettings.get('prepareTime');
 var fullscreenImages = [ "icons/fullON.svg", "icons/fullOFF.svg" ];
 var fullscreenImageNumber = 0;
+let wakeLock = null;
 
 let $ = function ( selector, parent ) {
     return ( parent ? parent : document ).querySelector( selector );
@@ -44,6 +45,13 @@ const finish = getById( "finish" );
 const inputs = getByTag( "input" );
 const fullscreen = getById( "fullscreen" );
 const slider = getById( "myVolRange" );
+
+getById("preset-name").value = defaultSettings.get("presetName");
+getById("rounds-count").value = defaultSettings.get("roundCount");
+getById("active-time").value = defaultSettings.get("activeTime");
+getById("break-time").value = defaultSettings.get("breakTime");
+getById("warning-time").value = defaultSettings.get("endWarningTime");
+getById("prepare-time").value = defaultSettings.get("prepareTime");
 
 slider.addEventListener( "mousemove", () => {
     var x = slider.value;
@@ -214,6 +222,7 @@ function displayStats () {
 function checkEmptyInputs () {
    if (inputs[0].value == "") return true;
    for (let i = 1; i < 5; i++){
+       if (i == 3 && getById("enable-rests").checked == false) {continue;}
        if (inputs[i].value < 1 || inputs[i].value == "") return true;
    }
    return false;
@@ -237,7 +246,8 @@ function colorChange () {
     }
     else if ( actionText === "Work" && start.innerText === "CONTINUE" ) {
         start.innerText = "PAUSE";
-        color.style.backgroundColor = "#118007";
+        if (currentSettings.get("useCustomColors") == true) {color.style.backgroundColor = currentSettings.get("roundColor");}
+        else {color.style.backgroundColor = defaultSettings.get("roundColor");}
     }
     else if ( actionText === "Break" && start.innerText === "CONTINUE" ) {
         start.innerText = "PAUSE";
@@ -268,13 +278,27 @@ function countdown () {
         // After a repetition is finished: changes screen color, exercise text, action text
         // After a set is finished: lowers sets number by 1
         // After all sets are finished: executes "stopTimer"
+        if ( time == currentSettings.get("endWarningTime") && action === "Work" ){
+            playAudio(String("sounds/" + currentSettings.get('innerRoundSound'))); // warning sound
+            if (currentSettings.get("useCustomColors") == true) {color.style.backgroundColor = currentSettings.get("warningColor");}
+            else {color.style.backgroundColor = defaultSettings.get("warningColor");}
+        }
         if ( time <= 1 && action === "Work" ) {
             // Changes from work to break
-            playAudio(String("sounds/" + currentSettings.get('beforeRoundEndSound'))); // break sound
-            globalTime = pause;
-            $( "#timer p" ).innerText = String( ~~( globalTime / 60 ) + ':' + String( globalTime % 60 ).padStart( 2, '0' ) );
-            $( "#action p" ).innerText = "Break";
-            color.style.backgroundColor = "#6e4804";
+            if (currentSettings.get("enableBreakTime") == true){
+                playAudio(String("sounds/" + currentSettings.get('beforeRoundEndSound'))); // break sound
+                globalTime = pause;
+                $( "#timer p" ).innerText = String( ~~( globalTime / 60 ) + ':' + String( globalTime % 60 ).padStart( 2, '0' ) );
+                $( "#action p" ).innerText = "Break";
+                if (currentSettings.get("useCustomColors") == true) {color.style.backgroundColor = currentSettings.get("restColor");}
+                else {color.style.backgroundColor = defaultSettings.get("restColor");}
+            }
+            else {
+                playAudio(String("sounds/" + currentSettings.get('startSound')))
+                globalTime = currentSettings.get("activeTime"); // start sound
+                if (currentSettings.get("useCustomColors") == true) {color.style.backgroundColor = currentSettings.get("roundColor");}
+                else {color.style.backgroundColor = defaultSettings.get("roundColor");}
+            }
 
             // Changes exercise text after one is finished and lowers sets number if all exercises are finished
             $( "#sets p" ).innerText = --sets;
@@ -288,7 +312,8 @@ function countdown () {
             globalTime = active;
             $( "#timer p" ).innerText = String( ~~( globalTime / 60 ) + ':' + String( globalTime % 60 ).padStart( 2, '0' ) );
             $( "#action p" ).innerText = "Work";
-            color.style.backgroundColor = "#118007";
+            if (currentSettings.get("useCustomColors") == true) {color.style.backgroundColor = currentSettings.get("roundColor");}
+            else {color.style.backgroundColor = defaultSettings.get("roundColor");}
         }
         else if ( time <= 1 && action === "Get Ready!" ) {
             // Used only for first start. Changes from get ready to work
@@ -296,7 +321,8 @@ function countdown () {
             globalTime = active;
             $( "#timer p" ).innerText = String( ~~( globalTime / 60 ) + ':' + String( globalTime % 60 ).padStart( 2, '0' ) );
             $( "#action p" ).innerText = "Work";
-            color.style.backgroundColor = "#118007";
+            if (currentSettings.get("useCustomColors") == true) {color.style.backgroundColor = currentSettings.get("roundColor");}
+            else {color.style.backgroundColor = defaultSettings.get("roundColor");}
         }
     }
 }
@@ -329,6 +355,20 @@ function saveToCurrentSettings () {
     currentSettings.set('innerRoundSound', document.getElementById('inner-round-sound').value);
 }
 
+function isScreenLockSupported() {
+    return ('wakeLock' in navigator);
+}
+
+async function enableScreenLock (){
+    try {
+        wakeLock = await navigator.wakeLock.request('screen');
+        //statusElem.textContent = 'Wake Lock is active!';
+      } catch (err) {
+        // The Wake Lock request has failed - usually system related, such as battery.
+        //statusElem.textContent = `${err.name}, ${err.message}`;
+      }
+}
+
 saveSettings.onclick = function () {
     if (checkEmptyInputs()){
         getById( "required" ).style.opacity = 1;
@@ -338,6 +378,15 @@ saveSettings.onclick = function () {
     getById( "required" ).style.opacity = 0; 
     getById( "saveSettings" ).style.backgroundColor = "#5eaba2";
     saveToCurrentSettings();
+    if (currentSettings.get("enableKeepScreen") == true){enableScreenLock();}
+    else { // if it's on release it
+        if (wakeLock != null){
+            wakeLock.release()
+            .then(() => {
+              wakeLock = null;
+            })
+        } 
+    }
     globalTime = currentSettings.get('prepareTime');
     settingsWindow.style.display = "none";
     }
@@ -345,4 +394,31 @@ saveSettings.onclick = function () {
 
 span.onclick = function () {
     settingsWindow.style.display = "none";
+}
+
+getById('enable-colors').addEventListener( "click", () => {
+    if (getById("enable-colors").checked == true){
+        getById("round-color").disabled = false;
+        getById("warning-color").disabled = false;
+        getById("rest-color").disabled = false;
+    }
+    else{
+        getById("round-color").disabled = true;
+        getById("warning-color").disabled = true;
+        getById("rest-color").disabled = true;
+    }
+} );
+
+getById('enable-rests').addEventListener( "click", () => {
+    if (getById("enable-rests").checked == true){
+        getById("break-time").disabled = false;
+    }
+    else{
+        getById("break-time").value = 0;
+        getById("break-time").disabled = true;
+    }
+} );
+
+if (!isScreenLockSupported){
+    getById("enable-keepscreen").disabled = true;
 }

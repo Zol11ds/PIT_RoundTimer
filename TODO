@@ -1,9 +1,9 @@
 ## TODO
 !!! CRITICAL !!!
 
-- configuration based on settings (i.e. custom/default backround colors, enable break time etc.)
-- in settings tab disable inputs if the according checkbox is disabled
+1. Implement preset code "loader" and "saver"
 
 /// Good to have ///
 
 1. Change design according to our previous document
+2. More configurations in settings (enable warnings, sounds, change timer color)
