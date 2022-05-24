@@ -69,14 +69,8 @@ const slider = getById( "myVolRange" );
 
 
 updateSettingsInputs();
-/*
-getById("preset-name").value = defaultSettings.get("presetName");
-getById("rounds-count").value = defaultSettings.get("roundCount");
-getById("active-time").value = defaultSettings.get("activeTime");
-getById("break-time").value = defaultSettings.get("breakTime");
-getById("warning-time").value = defaultSettings.get("endWarningTime");
-getById("prepare-time").value = defaultSettings.get("prepareTime");
-*/
+updateDisplayStats();
+
 function updateSettingsInputs () {
     getById("preset-name").value = currentSettings.get("presetName");
     getById("rounds-count").value = currentSettings.get("roundCount");
@@ -113,7 +107,15 @@ function updateSettingsInputs () {
         getById("break-time").value = 0;
         getById("break-time").disabled = true;
     }
+
 }
+
+function updateDisplayStats(){
+    getById("active-display").innerHTML = String( ~~( currentSettings.get("activeTime") / 60 ) + ':' + String( currentSettings.get("activeTime") % 60 ).padStart( 2, '0' ) );
+    getById("break-display").innerHTML = String( ~~( currentSettings.get("breakTime") / 60 ) + ':' + String( currentSettings.get("breakTime") % 60 ).padStart( 2, '0' ) );
+    getById("preset-display").innerHTML = currentSettings.get("presetName");
+}
+
 
 slider.addEventListener( "mousemove", () => {
     var x = slider.value;
@@ -226,7 +228,7 @@ function timer () {
 
 // Stop timer (when all exercises and sets are finished)
 function stopTimer () {
-    playAudio( "sounds/endSets.mp3" );
+    playAudio( String("sounds/" + currentSettings.get('endSound')));
     resetEverything();
     start.style.display = "none";
     finish.style.display = "initial";
@@ -344,14 +346,14 @@ function countdown () {
         // After a set is finished: lowers sets number by 1
         // After all sets are finished: executes "stopTimer"
         if ( time == currentSettings.get("endWarningTime") && action === "Work" ){
-            playAudio(String("sounds/" + currentSettings.get('endSound'))); // warning sound
+            playAudio(String("sounds/" + currentSettings.get('warningSound'))); // warning sound
             if (currentSettings.get("useCustomColors") == true) {color.style.backgroundColor = currentSettings.get("warningColor");}
             else {color.style.backgroundColor = defaultSettings.get("warningColor");}
         }
         if ( time <= 1 && action === "Work" ) {
             // Changes from work to break
             if (currentSettings.get("enableBreakTime") == true){
-                playAudio(String("sounds/" + currentSettings.get('breakSound'))); // break sound
+                if (sets > 1) playAudio(String("sounds/" + currentSettings.get('breakSound'))); // break sound
                 globalTime = pause;
                 $( "#timer p" ).innerText = String( ~~( globalTime / 60 ) + ':' + String( globalTime % 60 ).padStart( 2, '0' ) );
                 $( "#action p" ).innerText = "Break";
@@ -434,6 +436,7 @@ async function enableScreenLock (){
       }
 }
 
+
 saveSettings.onclick = function () {
     if (checkEmptyInputs()){
         getById( "required" ).style.opacity = 1;
@@ -443,6 +446,7 @@ saveSettings.onclick = function () {
     getById( "required" ).style.opacity = 0; 
     getById( "saveSettings" ).style.backgroundColor = "#5eaba2";
     saveToCurrentSettings();
+    updateDisplayStats();
     if (currentSettings.get("enableKeepScreen") == true){enableScreenLock();}
     else { // if it's on release it
         if (wakeLock != null){

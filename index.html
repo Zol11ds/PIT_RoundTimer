@@ -13,10 +13,22 @@
         <header>
             <p>Round Timer</p>
         </header>
-        <button id="settings">Settings</button>
-        <div id="test">
-            <p></p>
+        
+        <div id="topper">
+            <div name='stats' id="stats">
+                <div class="parent">
+                    <div class='child active-time-stat-child'>Active time:</div>
+                    <div class='child active-time-stat-child' id="active-display">0:00</div>
+                </div>
+                <div class="parent">
+                    <div class='child active-time-stat-child'>Break time:</div>
+                    <div class='child active-time-stat-child'id="break-display">0:00</div>
+                </div>
+            </div>
+            <div id="preset-display">Default</div>
+            <button id="settings">Settings</button>
         </div>
+
         <div id="settingsWindow" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
@@ -25,7 +37,7 @@
                         <h2>Settings</h2>
                         <li>
                             <label for="preset-name">Preset name:</label>
-                            <input type="text" name="preset-name" id="preset-name" placeholder="Name">
+                            <input type="text" name="preset-name" id="preset-name" maxlength="30" placeholder="Name">
                         </li>
                         <li>
                             <label for="rounds">Rounds:</label>

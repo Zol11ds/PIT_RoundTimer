@@ -307,10 +307,9 @@ input:focus {
     cursor: pointer;
 }
 
+
 #settings {
-    position: fixed;
-    right: 20px;
-    top: 120px;
+    height: 80px;
     line-height: 70px;
     width: 200px;
     background-color: rgb(94, 171, 162);
@@ -323,6 +322,7 @@ input:focus {
     color: white;
     letter-spacing: 0.3px;
     transition: 0.3s;
+    margin-right: 10px;
 }
 
 #settings:disabled{
@@ -552,4 +552,48 @@ input[type=number]{
 input[type=text]:focus,
 input[type=number]:focus{
     border: 2px solid #555;
+}
+
+
+#stats {
+    line-height: 0;
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+    letter-spacing: 0.5px;
+    display:inline-block;
+    text-align: right;
+}
+
+.active-time-stat {
+    padding: 0;
+}
+
+.parent {
+    padding: 1.5rem;
+    display:flex;
+    justify-content: flex-end;
+}
+
+.child {
+    padding: 0.3rem;
+}
+
+.active-time-stat-child {
+    float: left;
+}
+
+#topper{
+    margin: 10px;
+    top: 50px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#preset-display {
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+    margin-right: 240px;
 }
