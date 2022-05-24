@@ -124,7 +124,9 @@ slider.addEventListener( "mousemove", () => {
 start.addEventListener( "click", () => {
     // Checks if all the inputs have some kind of value
     if ( start.innerText === "START" && checkEmptyInputs() ) { getById( "required" ).style.opacity = 1; }
-    else if ( start.innerText === "START" ) { timer(); }
+    else if ( start.innerText === "START" ) { 
+        getById("settings").disabled = true;
+        timer(); }
 
     if ( start.innerText !== "START" || start.innerText === "START" && !checkEmptyInputs() ) {
         // Disables styles to divs that are used when checking whether any inputs are empty
@@ -203,7 +205,6 @@ function playAudio ( url ) {
 // Start timer when "START" button is pressed
 function timer () {
     loadSettingsOnStart();
-    getById("settings").disabled = true;
     // First start
     if ( $( "#action p" ).innerText === "" ) {
         //getByTag( "form" )[ 1 ].style.display = "none";       // Hides form
@@ -503,7 +504,7 @@ getById('save-preset').addEventListener( "click", () => {
         let copysettings = new Map(currentSettings);
         saveToCurrentSettings();
         let savedSettings = new Map(currentSettings);
-        presetSettings2 = new Map(currentSettings);c
+        presetSettings2 = new Map(currentSettings);
         getById("preset-code").value = "XqcL0w"; // this is the place where code should be generated and settings sent to database
         currentSettings = new Map(copysettings);
     }
