@@ -57,7 +57,7 @@
                         </li>
                         <h2>Sounds</h2>
                         <li>
-                            <label for="start-sound">Start/End round:</label>
+                            <label for="start-sound">Round start:</label>
                             <select name="start-sound" id="start-sound">
                                 <option value="startRound.mp3">Just do it</option>
                                 <option value="break.mp3">Damn I'm Good</option>
@@ -66,29 +66,29 @@
                             </select>
                         </li>
                         <li>
-                            <label for="before-round-sound">Before round end</label>
-                            <select name="before-round-sound" id="before-round-sound">
-                                <option value="startRound.mp3">Just do it</option>
+                            <label for="break-start">Break start:</label>
+                            <select name="break-start" id="break-start">
                                 <option value="break.mp3">Damn I'm Good</option>
+                                <option value="startRound.mp3">Just do it</option>
                                 <option value="endSets.mp3">EARRAPE</option>
                                 <option value="notificationTest.mp3">Test sound</option>
                             </select>
                         </li>
                         <li>
-                            <label for="before-rest-sound">Before rest end</label>
-                            <select name="before-rest-sound" id="before-rest-sound">
+                            <label for="warning-sound">Warning:</label>
+                            <select name="warning-sound" id="warning-sound">
+                                <option value="notificationTest.mp3">Test sound</option>
                                 <option value="startRound.mp3">Just do it</option>
                                 <option value="break.mp3">Damn I'm Good</option>
                                 <option value="endSets.mp3">EARRAPE</option>
-                                <option value="notificationTest.mp3">Test sound</option>
                             </select>
                         </li>
                         <li>
-                            <label for="inner-round-sound">Inner round alert</label>
-                            <select name="inner-round-sound" id="inner-round-sound">
+                            <label for="end-sound">Fight End:</label>
+                            <select name="end-sound" id="end-sound">
+                                <option value="endSets.mp3">EARRAPE</option>
                                 <option value="startRound.mp3">Just do it</option>
                                 <option value="break.mp3">Damn I'm Good</option>
-                                <option value="endSets.mp3">EARRAPE</option>
                                 <option value="notificationTest.mp3">Test sound</option>
                             </select>
                         </li>
@@ -111,7 +111,18 @@
                         </li>
                     </ul>
                 </form>
-                <button id="saveSettings">Save</button>
+                <li id="main-buttons">
+                    <button id="saveSettings">Save</button>
+                    <button id="resetSettings">Reset</button>
+                </li>
+                <hr class="dotted">
+                <li id="ye-boi">
+                    <button id="load-preset">Load Preset</button>
+                    <button id="save-preset">Save Preset</button>
+                    <input type="text" name="preset-code" id="preset-code" placeholder="Code">
+                </li>
+                
+
             </div>
         </div>
 

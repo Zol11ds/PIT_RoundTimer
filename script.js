@@ -9,15 +9,36 @@ const defaultSettings = new Map([
     ['enableBreakTime', true], 
     ['enableKeepScreen', false], 
     ['startSound', 'startRound.mp3'],
-    ['beforeRoundEndSound', 'break.mp3'],
-    ['beforeRestEndSound', 'notificationTest.mp3'],
-    ['innerRoundSound', 'notificationTest.mp3'],
+    ['breakSound', 'break.mp3'],
+    ['warningSound', 'notificationTest.mp3'],
+    ['endSound', 'endSets.mp3'],
     ['useCustomColors', false],
     ['roundColor', '#118007'],
     ['warningColor', '#b04a0b'],
     ['restColor', '#b08909']
     ]);
+
+const presetSettings1 = new Map([
+    ['presetName', 'Sparring'],
+    ['roundCount', 6], 
+    ['activeTime', 60], 
+    ['breakTime', 25], 
+    ['endWarningTime', 15], 
+    ['prepareTime', 5], 
+    ['enableBreakTime', true], 
+    ['enableKeepScreen', true], 
+    ['startSound', 'break.mp3'],
+    ['breakSound', 'startRound.mp3'],
+    ['warningSound', 'notificationTest.mp3'],
+    ['endSound', 'endSets.mp3'],
+    ['useCustomColors', true],
+    ['roundColor', '#16C4CC'],
+    ['warningColor', '#1C16CC'],
+    ['restColor', '#8D1846']
+    ]);
 var currentSettings = new Map(defaultSettings);
+var presetSettings2 = null;
+
 var globalTime = defaultSettings.get('prepareTime');
 var fullscreenImages = [ "icons/fullON.svg", "icons/fullOFF.svg" ];
 var fullscreenImageNumber = 0;
@@ -46,12 +67,53 @@ const inputs = getByTag( "input" );
 const fullscreen = getById( "fullscreen" );
 const slider = getById( "myVolRange" );
 
+
+updateSettingsInputs();
+/*
 getById("preset-name").value = defaultSettings.get("presetName");
 getById("rounds-count").value = defaultSettings.get("roundCount");
 getById("active-time").value = defaultSettings.get("activeTime");
 getById("break-time").value = defaultSettings.get("breakTime");
 getById("warning-time").value = defaultSettings.get("endWarningTime");
 getById("prepare-time").value = defaultSettings.get("prepareTime");
+*/
+function updateSettingsInputs () {
+    getById("preset-name").value = currentSettings.get("presetName");
+    getById("rounds-count").value = currentSettings.get("roundCount");
+    getById("active-time").value = currentSettings.get("activeTime");
+    getById("break-time").value = currentSettings.get("breakTime");
+    getById("warning-time").value = currentSettings.get("endWarningTime");
+    getById("prepare-time").value = currentSettings.get("prepareTime");
+    getById("enable-rests").checked = currentSettings.get("enableBreakTime");
+    getById("enable-keepscreen").checked = currentSettings.get("enableKeepScreen");
+    getById("start-sound").value = currentSettings.get("startSound");
+    getById("break-start").value = currentSettings.get("breakSound");
+    getById("warning-sound").value = currentSettings.get("warningSound");
+    getById("end-sound").value = currentSettings.get("endSound");
+    getById("enable-colors").checked = currentSettings.get("useCustomColors");
+    getById("round-color").value = currentSettings.get("roundColor");
+    getById("warning-color").value = currentSettings.get("warningColor");
+    getById("rest-color").value = currentSettings.get("restColor");
+
+    if (getById("enable-colors").checked == true){
+        getById("round-color").disabled = false;
+        getById("warning-color").disabled = false;
+        getById("rest-color").disabled = false;
+    }
+    else{
+        getById("round-color").disabled = true;
+        getById("warning-color").disabled = true;
+        getById("rest-color").disabled = true;
+    }
+
+    if (getById("enable-rests").checked == true){
+        getById("break-time").disabled = false;
+    }
+    else{
+        getById("break-time").value = 0;
+        getById("break-time").disabled = true;
+    }
+}
 
 slider.addEventListener( "mousemove", () => {
     var x = slider.value;
@@ -279,14 +341,14 @@ function countdown () {
         // After a set is finished: lowers sets number by 1
         // After all sets are finished: executes "stopTimer"
         if ( time == currentSettings.get("endWarningTime") && action === "Work" ){
-            playAudio(String("sounds/" + currentSettings.get('innerRoundSound'))); // warning sound
+            playAudio(String("sounds/" + currentSettings.get('endSound'))); // warning sound
             if (currentSettings.get("useCustomColors") == true) {color.style.backgroundColor = currentSettings.get("warningColor");}
             else {color.style.backgroundColor = defaultSettings.get("warningColor");}
         }
         if ( time <= 1 && action === "Work" ) {
             // Changes from work to break
             if (currentSettings.get("enableBreakTime") == true){
-                playAudio(String("sounds/" + currentSettings.get('beforeRoundEndSound'))); // break sound
+                playAudio(String("sounds/" + currentSettings.get('breakSound'))); // break sound
                 globalTime = pause;
                 $( "#timer p" ).innerText = String( ~~( globalTime / 60 ) + ':' + String( globalTime % 60 ).padStart( 2, '0' ) );
                 $( "#action p" ).innerText = "Break";
@@ -342,7 +404,7 @@ settings.onclick = function () {
 function saveToCurrentSettings () {
     let i = 0;
     for (const key of currentSettings.keys()) {
-        if (key !== 'startSound' && key !== 'beforeRoundEndSound' && key !== 'beforeRestEndSound' && key !== 'innerRoundSound' ){
+        if (key !== 'startSound' && key !== 'breakSound' && key !== 'warningSound' && key !== 'endSound' ){
             //console.log(key);
             if (i !== 6 && i !== 7 && i !== 8){currentSettings.set(key, String(inputs[i].value));}
             else {currentSettings.set(key, inputs[i].checked);}
@@ -350,9 +412,9 @@ function saveToCurrentSettings () {
         }
     }
     currentSettings.set('startSound', document.getElementById('start-sound').value);
-    currentSettings.set('beforeRoundEndSound', document.getElementById('before-round-sound').value);
-    currentSettings.set('beforeRestEndSound', document.getElementById('before-rest-sound').value);
-    currentSettings.set('innerRoundSound', document.getElementById('inner-round-sound').value);
+    currentSettings.set('breakSound', document.getElementById('break-start').value);
+    currentSettings.set('warningSound', document.getElementById('warning-sound').value);
+    currentSettings.set('endSound', document.getElementById('end-sound').value);
 }
 
 function isScreenLockSupported() {
@@ -422,3 +484,36 @@ getById('enable-rests').addEventListener( "click", () => {
 if (!isScreenLockSupported){
     getById("enable-keepscreen").disabled = true;
 }
+
+getById('resetSettings').addEventListener( "click", () => {
+    currentSettings = new Map(defaultSettings);
+    updateSettingsInputs();
+} );
+
+getById('save-preset').addEventListener( "click", () => {
+    if (checkEmptyInputs()){
+        getById( "required" ).style.opacity = 1;
+        getById( "saveSettings" ).style.backgroundColor = "#df3030";
+    }
+    else {
+        getById( "required" ).style.opacity = 0; 
+        getById( "saveSettings" ).style.backgroundColor = "#5eaba2";
+        let copysettings = new Map(currentSettings);
+        saveToCurrentSettings();
+        let savedSettings = new Map(currentSettings);
+        presetSettings2 = new Map(currentSettings);
+        getById("preset-code").value = "XqcL0w"; // this is the place where code should be generated and settings sent to database
+        currentSettings = new Map(copysettings);
+    }
+} );
+
+getById('load-preset').addEventListener( "click", () => {
+    let preset = getById("preset-code").value;
+    if (preset == 'Zol11ds'){
+        currentSettings = new Map(presetSettings1);
+    }
+    if (preset == 'XqcL0w' && presetSettings2 != null){
+        currentSettings = new Map(presetSettings2);
+    }
+    updateSettingsInputs();
+} );

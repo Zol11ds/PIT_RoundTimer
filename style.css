@@ -321,17 +321,31 @@ input:focus {
     border-radius: 5px;
     border: 1px solid rgba(255, 255, 255, 0.5);
     color: white;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
     transition: 0.3s;
 }
 
 #saveSettings {
     position: relative;
-    top: 460px;
-    line-height: 60px;
+    line-height: 35px;
     width: 120px;
     background-color: rgb(94, 171, 162);
-    font-size: 2.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    letter-spacing: 0.5px;
+    transition: 0.3s;
+}
+
+#resetSettings {
+    line-height: 30px;
+    width: 60px;
+    background-color: rgb(81, 145, 137);
+    font-size: 1rem;
     font-weight: bold;
     text-align: center;
     cursor: pointer;
@@ -422,7 +436,7 @@ ul {
 }
 
 form li+li {
-    margin-top: 5px;
+    margin-top: 3px;
 }
 
 label {
@@ -443,4 +457,89 @@ textarea {
 label,
 input {
     margin-bottom: -5px;
+}
+
+#save-preset {
+    line-height: 30px;
+    width: 120px;
+    background-color: rgb(44, 103, 114);
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    letter-spacing: 0.5px;
+    transition: 0.3s;
+}
+
+#save-preset:hover{
+    background-color: rgb(60, 128, 139);
+}
+
+#load-preset:hover{
+    background-color: rgb(60, 128, 139);
+}
+
+#saveSettings:hover{
+    background-color: rgb(60, 128, 139);
+}
+
+#load-preset {
+    line-height: 30px;
+    width: 120px;
+    background-color: rgb(37, 145, 172);
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    letter-spacing: 0.5px;
+    transition: 0.3s;
+}
+
+#main-buttons {
+    position: relative;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    top: 410px;
+}
+
+#ye-boi {
+    position: relative;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    top: 415px;
+}
+
+/* Dotted border */
+hr.dotted {
+    position: relative;
+    top: 412px;
+    border-top: 1px dotted #bbb;
+  }
+
+#preset-code {
+    width: 32%;
+    margin: 8px 0;
+}
+
+
+input[type=text],
+input[type=number]{
+    border: 2px solid #ccc;
+    -webkit-transition: 0.5s;
+    box-sizing: border-box;
+    outline: none;
+    transition: 0.5s;
+}
+
+input[type=text]:focus,
+input[type=number]:focus{
+    border: 2px solid #555;
 }
