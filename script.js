@@ -203,6 +203,7 @@ function playAudio ( url ) {
 // Start timer when "START" button is pressed
 function timer () {
     loadSettingsOnStart();
+    getById("settings").disabled = true;
     // First start
     if ( $( "#action p" ).innerText === "" ) {
         //getByTag( "form" )[ 1 ].style.display = "none";       // Hides form
@@ -237,6 +238,7 @@ function stopTimer () {
 // Executes when "RESET" button is pressed
 function resetEverything () {
     globalTime = currentSettings.get('prepareTime');
+    getById("settings").disabled = false;
 
     start.innerText = "START";
     reset.style.dataReset = "true"; // Indication that timer has been reset
@@ -501,7 +503,7 @@ getById('save-preset').addEventListener( "click", () => {
         let copysettings = new Map(currentSettings);
         saveToCurrentSettings();
         let savedSettings = new Map(currentSettings);
-        presetSettings2 = new Map(currentSettings);
+        presetSettings2 = new Map(currentSettings);c
         getById("preset-code").value = "XqcL0w"; // this is the place where code should be generated and settings sent to database
         currentSettings = new Map(copysettings);
     }

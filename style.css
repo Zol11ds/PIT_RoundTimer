@@ -325,6 +325,14 @@ input:focus {
     transition: 0.3s;
 }
 
+#settings:disabled{
+    opacity: 0.3;
+}
+
+#settings:enabled{
+    opacity: 1;
+}
+
 #saveSettings {
     position: relative;
     line-height: 35px;
@@ -340,6 +348,8 @@ input:focus {
     letter-spacing: 0.5px;
     transition: 0.3s;
 }
+
+
 
 #resetSettings {
     line-height: 30px;
