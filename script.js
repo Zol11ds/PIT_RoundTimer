@@ -11,7 +11,7 @@ const defaultSettings = new Map([
     ['startSound', 'startRound.mp3'],
     ['breakSound', 'break.mp3'],
     ['warningSound', 'notificationTest.mp3'],
-    ['endSound', 'endSets.mp3'],
+    ['endSound', 'tadah.mp3'],
     ['useCustomColors', false],
     ['roundColor', '#118007'],
     ['warningColor', '#b04a0b'],
@@ -67,10 +67,11 @@ const inputs = getByTag( "input" );
 const fullscreen = getById( "fullscreen" );
 const slider = getById( "myVolRange" );
 
-
+// Initiates default settings in configuration page and main screen
 updateSettingsInputs();
 updateDisplayStats();
 
+// Updates settings forms values based on current settings
 function updateSettingsInputs () {
     getById("preset-name").value = currentSettings.get("presetName");
     getById("rounds-count").value = currentSettings.get("roundCount");
@@ -110,13 +111,14 @@ function updateSettingsInputs () {
 
 }
 
+// Updates configuration stats on main screen
 function updateDisplayStats(){
     getById("active-display").innerHTML = String( ~~( currentSettings.get("activeTime") / 60 ) + ':' + String( currentSettings.get("activeTime") % 60 ).padStart( 2, '0' ) );
     getById("break-display").innerHTML = String( ~~( currentSettings.get("breakTime") / 60 ) + ':' + String( currentSettings.get("breakTime") % 60 ).padStart( 2, '0' ) );
     getById("preset-display").innerHTML = currentSettings.get("presetName");
 }
 
-
+// Visual slider change if slider value has changed
 slider.addEventListener( "mousemove", () => {
     var x = slider.value;
     var color = 'linear-gradient(90deg, rgb(117,252,117)' + x + '%, rgb(214, 214, 214)' + x + '%)';
@@ -140,6 +142,7 @@ start.addEventListener( "click", () => {
     }
 } );
 
+// Changes the fullscreen icon based on if fullscreen is active or not
 function changeFullscreenImage () {
     if ( fullscreenImageNumber < 1 ) {
         fullscreenImageNumber++;
@@ -149,6 +152,7 @@ function changeFullscreenImage () {
     fullscreen.src = fullscreenImages[ fullscreenImageNumber ];
 }
 
+// Disables fullscreen (many configurations for browser types)
 function smolScreen () {
     if ( document.exitFullscreen ) {
         document.exitFullscreen();
@@ -164,6 +168,7 @@ function smolScreen () {
     }
 }
 
+// Enables fullscreen (many configurations for browser types)
 function bigScreen () {
     if ( myDocument.requestFullscreen ) {
         myDocument.requestFullscreen();
@@ -198,6 +203,7 @@ function loadSettingsOnStart () {
     $( "#sets p" ).innerText = currentSettings.get('roundCount');
 }
 
+// Function that plays audio (bases the volume from slider)
 function playAudio ( url ) {
     notif = new Audio( url );
     notif.volume = slider.value / 100;
@@ -210,8 +216,10 @@ function timer () {
     // First start
     if ( $( "#action p" ).innerText === "" ) {
         //getByTag( "form" )[ 1 ].style.display = "none";       // Hides form
-        start.style.top = "100px";                        // Lowers down `START` button
-        reset.style.top = "100px";                        // Lowers down `RESET` button
+        start.style.top = "442px";                        // Lowers down `START` button
+        start.style.right = "150px";
+        reset.style.top = "350px";
+        reset.style.left = "150px";                      // Lowers down `RESET` button
         $( "#action p" ).innerText = "Get Ready!";          // Changes action text
         $( "#timer p" ).innerText = currentSettings.get('prepareTime');                     // Initial countdown ("Get Ready!")
 
@@ -231,10 +239,16 @@ function stopTimer () {
     playAudio( String("sounds/" + currentSettings.get('endSound')));
     resetEverything();
     start.style.display = "none";
-    finish.style.display = "initial";
+    reset.style.display = "initial";
+    reset.style.lef = "120px";
     //getByTag( "form" )[ 1 ].style.display = "none"; // Hides form
-    var endCol = 'linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet)';
-    getById( "page" ).style.background = endCol;
+    if (getById("preset-code").value == 'GIGACHAD'){
+        var endCol = 'linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet)';
+        getById("fight-end").className = "please-help-more";
+        getById("chad-card").className += " current";
+        getById( "page" ).style.background = endCol;
+    }
+    getById( "page" ).style.backgroundColor = "#535354";
     getByClass( "congratulations" )[ 0 ].style.display = "flex";
 }
 
@@ -242,6 +256,9 @@ function stopTimer () {
 function resetEverything () {
     globalTime = currentSettings.get('prepareTime');
     getById("settings").disabled = false;
+
+    if ( start.style.display = "none" ) { start.style.display = "initial"; }
+    getByClass( "congratulations" )[ 0 ].style.display = "none";
 
     start.innerText = "START";
     reset.style.dataReset = "true"; // Indication that timer has been reset
@@ -252,7 +269,9 @@ function resetEverything () {
     // Displays form and repositions buttons
     //getByTag( "form" )[ 1 ].style.display = "flex";
     start.style.top = "120px";
-    reset.style.top = "120px";
+    start.style.right = "0px";
+    reset.style.top = "100px";
+    reset.style.left = "5px";
 
     // Resets values that are shown during exercise
     $( "#action p" ).innerText = "";
@@ -281,7 +300,6 @@ function displayStats () {
     finish.style.display = "none";
     reset.style.display = "initial"
     getByClass( "information" )[ 1 ].style.display = "none";
-    getByClass( "stats" )[ 0 ].style.display = "flex";
     reset.style.top = "100px";
 }
 
@@ -345,7 +363,9 @@ function countdown () {
         // After a repetition is finished: changes screen color, exercise text, action text
         // After a set is finished: lowers sets number by 1
         // After all sets are finished: executes "stopTimer"
-        if ( time == currentSettings.get("endWarningTime") && action === "Work" ){
+
+        // Checks if warning phase has started
+        if ( time == (parseInt(currentSettings.get("endWarningTime")) + 1) && action === "Work" ){
             playAudio(String("sounds/" + currentSettings.get('warningSound'))); // warning sound
             if (currentSettings.get("useCustomColors") == true) {color.style.backgroundColor = currentSettings.get("warningColor");}
             else {color.style.backgroundColor = defaultSettings.get("warningColor");}
@@ -353,7 +373,7 @@ function countdown () {
         if ( time <= 1 && action === "Work" ) {
             // Changes from work to break
             if (currentSettings.get("enableBreakTime") == true){
-                if (sets > 1) playAudio(String("sounds/" + currentSettings.get('breakSound'))); // break sound
+                if (sets > 1) playAudio(String("sounds/" + currentSettings.get('breakSound'))); // break sound (disabled at last set)
                 globalTime = pause;
                 $( "#timer p" ).innerText = String( ~~( globalTime / 60 ) + ':' + String( globalTime % 60 ).padStart( 2, '0' ) );
                 $( "#action p" ).innerText = "Break";
@@ -406,11 +426,13 @@ settings.onclick = function () {
     settingsWindow.style.display = "block";
 }
 
+// Saves settings based on configuration input
 function saveToCurrentSettings () {
     let i = 0;
     for (const key of currentSettings.keys()) {
+        // As selection element isn't counted as input, then it ignored
         if (key !== 'startSound' && key !== 'breakSound' && key !== 'warningSound' && key !== 'endSound' ){
-            //console.log(key);
+            // Function is divided either the input element type is checkbox or not (based on specific input id's)
             if (i !== 6 && i !== 7 && i !== 8){currentSettings.set(key, String(inputs[i].value));}
             else {currentSettings.set(key, inputs[i].checked);}
             i = i + 1;
@@ -422,10 +444,12 @@ function saveToCurrentSettings () {
     currentSettings.set('endSound', document.getElementById('end-sound').value);
 }
 
+// Check if OS and browser supports screen lock
 function isScreenLockSupported() {
     return ('wakeLock' in navigator);
 }
 
+// Enables screen lock
 async function enableScreenLock (){
     try {
         wakeLock = await navigator.wakeLock.request('screen');
@@ -436,8 +460,8 @@ async function enableScreenLock (){
       }
 }
 
-
 saveSettings.onclick = function () {
+    // Check if input is legitimate
     if (checkEmptyInputs()){
         getById( "required" ).style.opacity = 1;
         getById( "saveSettings" ).style.backgroundColor = "#df3030";
@@ -447,8 +471,9 @@ saveSettings.onclick = function () {
     getById( "saveSettings" ).style.backgroundColor = "#5eaba2";
     saveToCurrentSettings();
     updateDisplayStats();
+    // Lock screen if it's enabled in configuration
     if (currentSettings.get("enableKeepScreen") == true){enableScreenLock();}
-    else { // if it's on release it
+    else { // if it's off then release it
         if (wakeLock != null){
             wakeLock.release()
             .then(() => {
@@ -465,6 +490,7 @@ span.onclick = function () {
     settingsWindow.style.display = "none";
 }
 
+// Disable/enable custom color input based on according checkbox
 getById('enable-colors').addEventListener( "click", () => {
     if (getById("enable-colors").checked == true){
         getById("round-color").disabled = false;
@@ -478,6 +504,7 @@ getById('enable-colors').addEventListener( "click", () => {
     }
 } );
 
+// Disable/enable break time input based on according checkbox
 getById('enable-rests').addEventListener( "click", () => {
     if (getById("enable-rests").checked == true){
         getById("break-time").disabled = false;
@@ -488,16 +515,20 @@ getById('enable-rests').addEventListener( "click", () => {
     }
 } );
 
+// Disable "Keep screen" checkbox if OS and browser doesn't support it
 if (!isScreenLockSupported){
     getById("enable-keepscreen").disabled = true;
 }
 
+// Resets current settings with default configuraion
 getById('resetSettings').addEventListener( "click", () => {
     currentSettings = new Map(defaultSettings);
     updateSettingsInputs();
 } );
 
+// Saves the preset and gives a code
 getById('save-preset').addEventListener( "click", () => {
+    // Check if input is legitimate
     if (checkEmptyInputs()){
         getById( "required" ).style.opacity = 1;
         getById( "saveSettings" ).style.backgroundColor = "#df3030";
@@ -505,15 +536,15 @@ getById('save-preset').addEventListener( "click", () => {
     else {
         getById( "required" ).style.opacity = 0; 
         getById( "saveSettings" ).style.backgroundColor = "#5eaba2";
-        let copysettings = new Map(currentSettings);
-        saveToCurrentSettings();
-        let savedSettings = new Map(currentSettings);
-        presetSettings2 = new Map(currentSettings);
+        let copysettings = new Map(currentSettings); // backs up current settings
+        saveToCurrentSettings(); // configured current settings
+        presetSettings2 = new Map(currentSettings); // saves configured settings on a variable
         getById("preset-code").value = "XqcL0w"; // this is the place where code should be generated and settings sent to database
-        currentSettings = new Map(copysettings);
+        currentSettings = new Map(copysettings); // reverts to previous configurations before "Save preset"
     }
 } );
 
+// Loads configuration based on the code
 getById('load-preset').addEventListener( "click", () => {
     let preset = getById("preset-code").value;
     if (preset == 'Zol11ds'){

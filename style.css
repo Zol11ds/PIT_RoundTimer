@@ -69,7 +69,6 @@ header {
 }
 
 .information {
-    background-color: rgb(94, 171, 162);
     position: relative;
     top: 140px;
     display: flex;
@@ -78,8 +77,6 @@ header {
     flex-direction: column;
     color: white;
     font-size: 1.5rem;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .form {
@@ -90,9 +87,13 @@ header {
 }
 
 .congratulations {
-    height: 125px;
-    width: 400px;
-    margin-top: 20px;
+    line-height: 0;
+    font-size: 6rem;
+    font-weight: bold;
+    color: white;
+    letter-spacing: 1px;
+    height: 150px;
+    width: 800px;
     display: none;
 }
 
@@ -204,13 +205,13 @@ input:focus {
 
 #action {
     position: relative;
-    top: 100px;
+    top: -150px;
     right: 50px;
     background-color: rgb(94, 171, 162);
     border-radius: 5px;
     border: 1px solid rgba(255, 255, 255, 0.5);
     width: 300px;
-    height: 50px;
+    height: 55px;
     margin-top: 20px;
     transition: all 0.15s;
     display: none;
@@ -220,20 +221,20 @@ input:focus {
     margin: 0;
     line-height: 50px;
     text-align: center;
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 500;
     color: white;
 }
 
 #sets {
     position: relative;
-    top: 48px;
+    top: -207px;
     left: 160px;
     background-color: rgb(94, 171, 162);
     border-radius: 5px;
     border: 1px solid rgba(255, 255, 255, 0.5);
     width: 80px;
-    height: 50px;
+    height: 55px;
     transition: all 0.15s;
     display: none;
 }
@@ -242,14 +243,14 @@ input:focus {
     margin: 0;
     line-height: 50px;
     text-align: center;
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 500;
     color: white;
 }
 
 #timer {
     position: relative;
-    top: 70px;
+    top: -120px;
     width: 400px;
     height: 150px;
     border-radius: 5px;
@@ -261,7 +262,7 @@ input:focus {
     margin: 0;
     line-height: 150px;
     text-align: center;
-    font-size: 6rem;
+    font-size: 10rem;
     font-weight: 500;
     color: white;
 }
@@ -596,4 +597,24 @@ input[type=number]:focus{
     font-weight: bold;
     color: white;
     margin-right: 240px;
+}
+
+#chad {
+    width: 828px;
+    height: auto;
+}
+
+.please-help {
+    display: inline-block;
+    padding: .2em .3em;
+    list-style: none;
+    /*border: 2px solid black;*/
+}
+.please-help-more {
+    position: absolute;
+    visibility: hidden;
+}
+.please-help-more.current {
+    position: relative;
+    visibility: visible;
 }
